@@ -1,0 +1,202 @@
+Tue 25 Mar 2025 09:34:21 INFO  
+General Hyper Parameters:
+gpu_id = 0
+use_gpu = True
+seed = 2022
+state = INFO
+reproducibility = True
+data_path = dataset/
+checkpoint_dir = saved
+show_progress = True
+save_dataset = False
+dataset_save_path = None
+save_dataloaders = False
+dataloaders_save_path = None
+log_wandb = False
+config_file = /notebooks/CoNet.yaml
+
+Training Hyper Parameters:
+train_batch_size = 2048
+learner = adam
+learning_rate = 0.001
+neg_sampling = {'uniform': 1}
+eval_step = 1
+stopping_step = 10
+clip_grad_norm = None
+weight_decay = 0.0
+loss_decimal_place = 4
+epochs = 20
+
+Evaluation Hyper Parameters:
+eval_args = {'split': {'RS': [0.6, 0.2, 0.2]}, 'split_valid': {'RS': [0.6, 0.2, 0.2]}, 'group_by': 'user', 'order': 'RO', 'mode': 'full'}
+repeatable = False
+metrics = ['Recall', 'NDCG', 'Hit', 'MRR']
+topk = [20]
+valid_metric = Recall@20
+valid_metric_bigger = True
+eval_batch_size = 2048
+metric_decimal_place = 4
+
+Dataset Hyper Parameters:
+field_separator = 	
+source_domain = {'dataset': 'Amazon-KG-5core-Books', 'data_path': '/notebooks/Amazon-KG-v2.0-dataset/Amazon-KG-5core-Books', 'seq_separator': ' ', 'USER_ID_FIELD': 'user_id', 'ITEM_ID_FIELD': 'item_id', 'RATING_FIELD': 'rating', 'TIME_FIELD': 'timestamp', 'NEG_PREFIX': 'neg_', 'LABEL_FIELD': 'label', 'load_col': {'inter': ['user_id', 'item_id', 'rating'], 'kg': ['head_id', 'relation_id', 'tail_id'], 'link': ['item_id', 'entity_id']}, 'user_inter_num_interval': '[5,inf)', 'item_inter_num_interval': '[5,inf)', 'val_interval': {'rating': '[0,inf)'}, 'drop_filter_field': True, 'HEAD_ENTITY_ID_FIELD': 'head_id', 'TAIL_ENTITY_ID_FIELD': 'tail_id', 'RELATION_ID_FIELD': 'relation_id', 'ENTITY_ID_FIELD': 'entity_id'}
+target_domain = {'dataset': 'Amazon-KG-5core-Movies_and_TV', 'data_path': '/notebooks/Amazon-KG-v2.0-dataset/Amazon-KG-5core-Movies_and_TV', 'seq_separator': ',', 'USER_ID_FIELD': 'user_id', 'ITEM_ID_FIELD': 'item_id', 'RATING_FIELD': 'rating', 'TIME_FIELD': 'timestamp', 'NEG_PREFIX': 'neg_', 'LABEL_FIELD': 'label', 'load_col': {'inter': ['user_id', 'item_id', 'rating'], 'kg': ['head_id', 'relation_id', 'tail_id'], 'link': ['item_id', 'entity_id']}, 'user_inter_num_interval': '[5,inf)', 'item_inter_num_interval': '[5,inf)', 'val_interval': {'rating': '[0,inf)'}, 'drop_filter_field': True, 'HEAD_ENTITY_ID_FIELD': 'head_id', 'TAIL_ENTITY_ID_FIELD': 'tail_id', 'RELATION_ID_FIELD': 'relation_id', 'ENTITY_ID_FIELD': 'entity_id'}
+
+Other Hyper Parameters: 
+wandb_project = recbole_cdr
+train_epochs = ['BOTH:20']
+require_pow = False
+embedding_size = 64
+reg_weight = 0.01
+mlp_hidden_size = [64, 32, 16, 8]
+MODEL_TYPE = ModelType.CROSSDOMAIN
+num_forward_layers = 2
+num_backward_layers = 2
+MODEL_INPUT_TYPE = InputType.POINTWISE
+eval_type = EvaluatorType.RANKING
+train_modes = ['BOTH']
+epoch_num = ['20']
+source_split = False
+device = cuda
+train_neg_sample_args = {'strategy': 'by', 'by': 1, 'distribution': 'uniform', 'dynamic': 'none'}
+eval_neg_sample_args = {'strategy': 'full', 'distribution': 'uniform'}
+
+
+Tue 25 Mar 2025 09:34:23 INFO  Source domain: Amazon-KG-5core-Books
+The number of users: 9416
+Average actions of users: 10.893786510886883
+The number of items: 4876
+Average actions of items: 21.038974358974357
+The number of inters: 102565
+The sparsity of the dataset: 99.7766072689357%
+Remain Fields: ['source_user_id', 'source_item_id', 'source_rating']
+Target domain: Amazon-KG-5core-Movies_and_TV
+The number of users: 4950
+Average actions of users: 11.844210951707415
+The number of items: 2630
+Average actions of items: 22.296310384176493
+The number of inters: 58617
+The sparsity of the dataset: 99.54974075354303%
+Remain Fields: ['target_user_id', 'target_item_id', 'target_rating']
+Num of overlapped user: 956
+Num of overlapped item: 1
+Tue 25 Mar 2025 09:34:23 INFO  [Training]: train_batch_size = [2048] negative sampling: [{'uniform': 1}]
+Tue 25 Mar 2025 09:34:23 INFO  [Evaluation]: eval_batch_size = [2048] eval_args: [{'split': {'RS': [0.6, 0.2, 0.2]}, 'split_valid': {'RS': [0.6, 0.2, 0.2]}, 'group_by': 'user', 'order': 'RO', 'mode': 'full'}]
+Tue 25 Mar 2025 09:34:24 INFO  CoNet(
+  (source_user_embedding): Embedding(13410, 64)
+  (target_user_embedding): Embedding(13410, 64)
+  (source_item_embedding): Embedding(7505, 64)
+  (target_item_embedding): Embedding(7505, 64)
+  (loss): BCELoss()
+  (source_crossunit_linear): ModuleList(
+    (0): Linear(in_features=128, out_features=64, bias=True)
+    (1): Linear(in_features=64, out_features=32, bias=True)
+    (2): Linear(in_features=32, out_features=16, bias=True)
+    (3): Linear(in_features=16, out_features=8, bias=True)
+  )
+  (source_crossunit_act): ModuleList(
+    (0): ReLU()
+    (1): ReLU()
+    (2): ReLU()
+    (3): ReLU()
+  )
+  (source_outputunit): Sequential(
+    (0): Linear(in_features=8, out_features=1, bias=True)
+    (1): Sigmoid()
+  )
+  (target_crossunit_linear): ModuleList(
+    (0): Linear(in_features=128, out_features=64, bias=True)
+    (1): Linear(in_features=64, out_features=32, bias=True)
+    (2): Linear(in_features=32, out_features=16, bias=True)
+    (3): Linear(in_features=16, out_features=8, bias=True)
+  )
+  (target_crossunit_act): ModuleList(
+    (0): ReLU()
+    (1): ReLU()
+    (2): ReLU()
+    (3): ReLU()
+  )
+  (target_outputunit): Sequential(
+    (0): Linear(in_features=8, out_features=1, bias=True)
+    (1): Sigmoid()
+  )
+  (crossparas): ModuleList(
+    (0): Linear(in_features=128, out_features=64, bias=False)
+    (1): Linear(in_features=64, out_features=32, bias=False)
+    (2): Linear(in_features=32, out_features=16, bias=False)
+    (3): Linear(in_features=16, out_features=8, bias=False)
+  )
+)
+Trainable parameters: 2710018
+Tue 25 Mar 2025 09:34:24 INFO  Start training with BOTH mode
+Tue 25 Mar 2025 09:34:26 INFO  epoch 0 training [time: 1.25s, train loss: 834.3920]
+Tue 25 Mar 2025 09:34:39 INFO  epoch 0 evaluating [time: 13.88s, valid_score: 0.091000]
+Tue 25 Mar 2025 09:34:39 INFO  valid result: 
+recall@20 : 0.091    ndcg@20 : 0.0382    hit@20 : 0.1455    mrr@20 : 0.0322
+Tue 25 Mar 2025 09:34:39 INFO  Saving current: saved/CoNet-Mar-25-2025_09-34-24.pth
+Tue 25 Mar 2025 09:34:40 INFO  epoch 1 training [time: 0.97s, train loss: 668.1288]
+Tue 25 Mar 2025 09:34:59 INFO  epoch 1 evaluating [time: 18.70s, valid_score: 0.096400]
+Tue 25 Mar 2025 09:34:59 INFO  valid result: 
+recall@20 : 0.0964    ndcg@20 : 0.0443    hit@20 : 0.1528    mrr@20 : 0.0389
+Tue 25 Mar 2025 09:34:59 INFO  Saving current: saved/CoNet-Mar-25-2025_09-34-24.pth
+Tue 25 Mar 2025 09:35:00 INFO  epoch 2 training [time: 1.07s, train loss: 529.4330]
+Tue 25 Mar 2025 09:35:19 INFO  epoch 2 evaluating [time: 18.94s, valid_score: 0.091700]
+Tue 25 Mar 2025 09:35:19 INFO  valid result: 
+recall@20 : 0.0917    ndcg@20 : 0.043    hit@20 : 0.1487    mrr@20 : 0.0384
+Tue 25 Mar 2025 09:35:20 INFO  epoch 3 training [time: 1.10s, train loss: 411.9469]
+Tue 25 Mar 2025 09:35:34 INFO  epoch 3 evaluating [time: 13.44s, valid_score: 0.095000]
+Tue 25 Mar 2025 09:35:34 INFO  valid result: 
+recall@20 : 0.095    ndcg@20 : 0.0444    hit@20 : 0.1524    mrr@20 : 0.0381
+Tue 25 Mar 2025 09:35:35 INFO  epoch 4 training [time: 0.92s, train loss: 313.9151]
+Tue 25 Mar 2025 09:35:50 INFO  epoch 4 evaluating [time: 15.02s, valid_score: 0.097600]
+Tue 25 Mar 2025 09:35:50 INFO  valid result: 
+recall@20 : 0.0976    ndcg@20 : 0.043    hit@20 : 0.1578    mrr@20 : 0.0382
+Tue 25 Mar 2025 09:35:50 INFO  Saving current: saved/CoNet-Mar-25-2025_09-34-24.pth
+Tue 25 Mar 2025 09:35:51 INFO  epoch 5 training [time: 1.08s, train loss: 235.2845]
+Tue 25 Mar 2025 09:36:04 INFO  epoch 5 evaluating [time: 13.12s, valid_score: 0.096500]
+Tue 25 Mar 2025 09:36:04 INFO  valid result: 
+recall@20 : 0.0965    ndcg@20 : 0.0437    hit@20 : 0.157    mrr@20 : 0.0389
+Tue 25 Mar 2025 09:36:05 INFO  epoch 6 training [time: 1.01s, train loss: 175.0262]
+Tue 25 Mar 2025 09:36:24 INFO  epoch 6 evaluating [time: 18.95s, valid_score: 0.096200]
+Tue 25 Mar 2025 09:36:24 INFO  valid result: 
+recall@20 : 0.0962    ndcg@20 : 0.0434    hit@20 : 0.1564    mrr@20 : 0.0397
+Tue 25 Mar 2025 09:36:25 INFO  epoch 7 training [time: 1.11s, train loss: 132.3303]
+Tue 25 Mar 2025 09:36:40 INFO  epoch 7 evaluating [time: 15.00s, valid_score: 0.096400]
+Tue 25 Mar 2025 09:36:40 INFO  valid result: 
+recall@20 : 0.0964    ndcg@20 : 0.0441    hit@20 : 0.1572    mrr@20 : 0.0407
+Tue 25 Mar 2025 09:36:41 INFO  epoch 8 training [time: 0.93s, train loss: 100.6422]
+Tue 25 Mar 2025 09:36:55 INFO  epoch 8 evaluating [time: 13.89s, valid_score: 0.088500]
+Tue 25 Mar 2025 09:36:55 INFO  valid result: 
+recall@20 : 0.0885    ndcg@20 : 0.041    hit@20 : 0.1414    mrr@20 : 0.0377
+Tue 25 Mar 2025 09:36:56 INFO  epoch 9 training [time: 0.98s, train loss: 78.1955]
+Tue 25 Mar 2025 09:37:09 INFO  epoch 9 evaluating [time: 12.72s, valid_score: 0.086300]
+Tue 25 Mar 2025 09:37:09 INFO  valid result: 
+recall@20 : 0.0863    ndcg@20 : 0.0379    hit@20 : 0.1336    mrr@20 : 0.033
+Tue 25 Mar 2025 09:37:10 INFO  epoch 10 training [time: 0.97s, train loss: 62.6842]
+Tue 25 Mar 2025 09:37:24 INFO  epoch 10 evaluating [time: 14.65s, valid_score: 0.088600]
+Tue 25 Mar 2025 09:37:24 INFO  valid result: 
+recall@20 : 0.0886    ndcg@20 : 0.0395    hit@20 : 0.1364    mrr@20 : 0.034
+Tue 25 Mar 2025 09:37:25 INFO  epoch 11 training [time: 0.95s, train loss: 50.2998]
+Tue 25 Mar 2025 09:37:40 INFO  epoch 11 evaluating [time: 14.94s, valid_score: 0.087400]
+Tue 25 Mar 2025 09:37:40 INFO  valid result: 
+recall@20 : 0.0874    ndcg@20 : 0.0386    hit@20 : 0.1321    mrr@20 : 0.0335
+Tue 25 Mar 2025 09:37:41 INFO  epoch 12 training [time: 0.90s, train loss: 41.3094]
+Tue 25 Mar 2025 09:37:57 INFO  epoch 12 evaluating [time: 16.40s, valid_score: 0.078200]
+Tue 25 Mar 2025 09:37:57 INFO  valid result: 
+recall@20 : 0.0782    ndcg@20 : 0.0347    hit@20 : 0.118    mrr@20 : 0.0287
+Tue 25 Mar 2025 09:37:59 INFO  epoch 13 training [time: 1.12s, train loss: 35.0801]
+Tue 25 Mar 2025 09:38:18 INFO  epoch 13 evaluating [time: 19.89s, valid_score: 0.077900]
+Tue 25 Mar 2025 09:38:18 INFO  valid result: 
+recall@20 : 0.0779    ndcg@20 : 0.0335    hit@20 : 0.1178    mrr@20 : 0.027
+Tue 25 Mar 2025 09:38:20 INFO  epoch 14 training [time: 1.12s, train loss: 30.1656]
+Tue 25 Mar 2025 09:38:37 INFO  epoch 14 evaluating [time: 17.73s, valid_score: 0.079300]
+Tue 25 Mar 2025 09:38:37 INFO  valid result: 
+recall@20 : 0.0793    ndcg@20 : 0.0351    hit@20 : 0.1202    mrr@20 : 0.029
+Tue 25 Mar 2025 09:38:38 INFO  epoch 15 training [time: 0.88s, train loss: 25.9457]
+Tue 25 Mar 2025 09:38:56 INFO  epoch 15 evaluating [time: 17.96s, valid_score: 0.084100]
+Tue 25 Mar 2025 09:38:56 INFO  valid result: 
+recall@20 : 0.0841    ndcg@20 : 0.0363    hit@20 : 0.1261    mrr@20 : 0.0294
+Tue 25 Mar 2025 09:38:56 INFO  Finished training, best eval result in epoch 4
+Tue 25 Mar 2025 09:38:56 INFO  Loading model structure and parameters from saved/CoNet-Mar-25-2025_09-34-24.pth
+Tue 25 Mar 2025 09:39:11 INFO  best valid : OrderedDict([('recall@20', 0.0976), ('ndcg@20', 0.043), ('hit@20', 0.1578), ('mrr@20', 0.0382)])
+Tue 25 Mar 2025 09:39:11 INFO  test result: OrderedDict([('recall@20', 0.1016), ('ndcg@20', 0.0453), ('hit@20', 0.159), ('mrr@20', 0.0386)])

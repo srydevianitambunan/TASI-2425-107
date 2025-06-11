@@ -1,0 +1,613 @@
+Mon 24 Mar 2025 16:03:36 INFO  
+General Hyper Parameters:
+gpu_id = 0
+use_gpu = True
+seed = 2022
+state = INFO
+reproducibility = True
+data_path = dataset/
+checkpoint_dir = saved
+show_progress = True
+save_dataset = False
+dataset_save_path = None
+save_dataloaders = False
+dataloaders_save_path = None
+log_wandb = False
+config_file = /notebooks/EMCDR.yaml
+
+Training Hyper Parameters:
+train_batch_size = 2048
+learner = adam
+learning_rate = 0.001
+neg_sampling = {'uniform': 1}
+eval_step = 1
+stopping_step = 10
+clip_grad_norm = None
+weight_decay = 0.0
+loss_decimal_place = 4
+epochs = 300
+
+Evaluation Hyper Parameters:
+eval_args = {'split': {'RS': [0.6, 0.2, 0.2]}, 'split_valid': {'RS': [0.8, 0.2]}, 'group_by': 'user', 'order': 'RO', 'mode': 'full'}
+repeatable = False
+metrics = ['Recall', 'NDCG', 'Hit', 'MRR']
+topk = [20]
+valid_metric = Recall@20
+valid_metric_bigger = True
+eval_batch_size = 2048
+metric_decimal_place = 4
+
+Dataset Hyper Parameters:
+field_separator = 	
+source_domain = {'dataset': 'Amazon-KG-5core-Books', 'data_path': '/notebooks/Amazon-KG-v2.0-dataset/Amazon-KG-5core-Books', 'seq_separator': ' ', 'USER_ID_FIELD': 'user_id', 'ITEM_ID_FIELD': 'item_id', 'RATING_FIELD': 'rating', 'TIME_FIELD': 'timestamp', 'NEG_PREFIX': 'neg_', 'LABEL_FIELD': 'label', 'load_col': {'inter': ['user_id', 'item_id', 'rating'], 'kg': ['head_id', 'relation_id', 'tail_id'], 'link': ['item_id', 'entity_id']}, 'user_inter_num_interval': '[5,inf)', 'item_inter_num_interval': '[5,inf)', 'val_interval': {'rating': '[0,inf)'}, 'drop_filter_field': True, 'HEAD_ENTITY_ID_FIELD': 'head_id', 'TAIL_ENTITY_ID_FIELD': 'tail_id', 'RELATION_ID_FIELD': 'relation_id', 'ENTITY_ID_FIELD': 'entity_id'}
+target_domain = {'dataset': 'Amazon-KG-5core-Movies_and_TV', 'data_path': '/notebooks/Amazon-KG-v2.0-dataset/Amazon-KG-5core-Movies_and_TV', 'seq_separator': ',', 'USER_ID_FIELD': 'user_id', 'ITEM_ID_FIELD': 'item_id', 'RATING_FIELD': 'rating', 'TIME_FIELD': 'timestamp', 'NEG_PREFIX': 'neg_', 'LABEL_FIELD': 'label', 'load_col': {'inter': ['user_id', 'item_id', 'rating'], 'kg': ['head_id', 'relation_id', 'tail_id'], 'link': ['item_id', 'entity_id']}, 'user_inter_num_interval': '[5,inf)', 'item_inter_num_interval': '[5,inf)', 'val_interval': {'rating': '[0,inf)'}, 'drop_filter_field': True, 'HEAD_ENTITY_ID_FIELD': 'head_id', 'TAIL_ENTITY_ID_FIELD': 'tail_id', 'RELATION_ID_FIELD': 'relation_id', 'ENTITY_ID_FIELD': 'entity_id'}
+
+Other Hyper Parameters: 
+wandb_project = recbole_cdr
+train_epochs = ['SOURCE:300', 'TARGET:300', 'OVERLAP:300']
+require_pow = False
+latent_factor_model = MF
+loss_type = CE
+source_embedding_size = 64
+target_embedding_size = 64
+reg_weight = 0.01
+mapping_function = non_linear
+mlp_hidden_size = [128]
+overlap_batch_size = 100
+MODEL_TYPE = ModelType.CROSSDOMAIN
+embedding_size = 64
+num_forward_layers = 2
+num_backward_layers = 2
+MODEL_INPUT_TYPE = InputType.POINTWISE
+eval_type = EvaluatorType.RANKING
+train_modes = ['SOURCE', 'TARGET', 'OVERLAP']
+epoch_num = ['300', '300', '300']
+source_split = True
+device = cuda
+train_neg_sample_args = {'strategy': 'by', 'by': 1, 'distribution': 'uniform', 'dynamic': 'none'}
+eval_neg_sample_args = {'strategy': 'full', 'distribution': 'uniform'}
+
+
+Mon 24 Mar 2025 16:03:38 INFO  Source domain: Amazon-KG-5core-Books
+The number of users: 9416
+Average actions of users: 10.893786510886883
+The number of items: 4876
+Average actions of items: 21.038974358974357
+The number of inters: 102565
+The sparsity of the dataset: 99.7766072689357%
+Remain Fields: ['source_user_id', 'source_item_id', 'source_rating']
+Target domain: Amazon-KG-5core-Movies_and_TV
+The number of users: 4950
+Average actions of users: 11.844210951707415
+The number of items: 2630
+Average actions of items: 22.296310384176493
+The number of inters: 58617
+The sparsity of the dataset: 99.54974075354303%
+Remain Fields: ['target_user_id', 'target_item_id', 'target_rating']
+Num of overlapped user: 956
+Num of overlapped item: 1
+Mon 24 Mar 2025 16:03:40 INFO  [Training]: train_batch_size = [2048] negative sampling: [{'uniform': 1}]
+Mon 24 Mar 2025 16:03:40 INFO  [Evaluation]: eval_batch_size = [2048] eval_args: [{'split': {'RS': [0.6, 0.2, 0.2]}, 'split_valid': {'RS': [0.8, 0.2]}, 'group_by': 'user', 'order': 'RO', 'mode': 'full'}]
+Mon 24 Mar 2025 16:03:41 INFO  EMCDR(
+  (loss): MSELoss()
+  (mapping): Sequential(
+    (0): Linear(in_features=64, out_features=128, bias=True)
+    (1): Tanh()
+    (2): Linear(in_features=128, out_features=64, bias=True)
+  )
+  (source_user_embedding): Embedding(13410, 64)
+  (source_item_embedding): Embedding(7505, 64)
+  (target_user_embedding): Embedding(13410, 64)
+  (target_item_embedding): Embedding(7505, 64)
+  (reg_loss): EmbLoss()
+  (map_loss): MSELoss()
+)
+Trainable parameters: 2693696
+Mon 24 Mar 2025 16:03:41 INFO  Start training with SOURCE mode
+Mon 24 Mar 2025 16:03:42 INFO  epoch 0 training [time: 0.35s, train loss: 41.4981]
+Mon 24 Mar 2025 16:04:05 INFO  epoch 0 evaluating [time: 23.65s, valid_score: 0.010700]
+Mon 24 Mar 2025 16:04:05 INFO  valid result: 
+recall@20 : 0.0107    ndcg@20 : 0.0044    hit@20 : 0.0199    mrr@20 : 0.004
+Mon 24 Mar 2025 16:04:05 INFO  Saving current: saved/EMCDR-Mar-24-2025_16-03-41.pth
+Mon 24 Mar 2025 16:04:06 INFO  epoch 1 training [time: 0.34s, train loss: 40.6477]
+Mon 24 Mar 2025 16:04:33 INFO  epoch 1 evaluating [time: 27.47s, valid_score: 0.102000]
+Mon 24 Mar 2025 16:04:33 INFO  valid result: 
+recall@20 : 0.102    ndcg@20 : 0.0514    hit@20 : 0.1531    mrr@20 : 0.0484
+Mon 24 Mar 2025 16:04:33 INFO  Saving current: saved/EMCDR-Mar-24-2025_16-03-41.pth
+Mon 24 Mar 2025 16:04:34 INFO  epoch 2 training [time: 0.47s, train loss: 35.2545]
+Mon 24 Mar 2025 16:05:11 INFO  epoch 2 evaluating [time: 37.25s, valid_score: 0.125000]
+Mon 24 Mar 2025 16:05:11 INFO  valid result: 
+recall@20 : 0.125    ndcg@20 : 0.0618    hit@20 : 0.181    mrr@20 : 0.0557
+Mon 24 Mar 2025 16:05:11 INFO  Saving current: saved/EMCDR-Mar-24-2025_16-03-41.pth
+Mon 24 Mar 2025 16:05:11 INFO  epoch 3 training [time: 0.42s, train loss: 23.0200]
+Mon 24 Mar 2025 16:05:46 INFO  epoch 3 evaluating [time: 34.96s, valid_score: 0.132100]
+Mon 24 Mar 2025 16:05:46 INFO  valid result: 
+recall@20 : 0.1321    ndcg@20 : 0.0657    hit@20 : 0.1918    mrr@20 : 0.0589
+Mon 24 Mar 2025 16:05:46 INFO  Saving current: saved/EMCDR-Mar-24-2025_16-03-41.pth
+Mon 24 Mar 2025 16:05:47 INFO  epoch 4 training [time: 0.30s, train loss: 14.6698]
+Mon 24 Mar 2025 16:06:21 INFO  epoch 4 evaluating [time: 34.26s, valid_score: 0.150000]
+Mon 24 Mar 2025 16:06:21 INFO  valid result: 
+recall@20 : 0.15    ndcg@20 : 0.0749    hit@20 : 0.2141    mrr@20 : 0.0672
+Mon 24 Mar 2025 16:06:21 INFO  Saving current: saved/EMCDR-Mar-24-2025_16-03-41.pth
+Mon 24 Mar 2025 16:06:21 INFO  epoch 5 training [time: 0.40s, train loss: 11.2517]
+Mon 24 Mar 2025 16:07:04 INFO  epoch 5 evaluating [time: 42.41s, valid_score: 0.159400]
+Mon 24 Mar 2025 16:07:04 INFO  valid result: 
+recall@20 : 0.1594    ndcg@20 : 0.079    hit@20 : 0.2264    mrr@20 : 0.0695
+Mon 24 Mar 2025 16:07:04 INFO  Saving current: saved/EMCDR-Mar-24-2025_16-03-41.pth
+Mon 24 Mar 2025 16:07:04 INFO  epoch 6 training [time: 0.32s, train loss: 9.4661]
+Mon 24 Mar 2025 16:07:40 INFO  epoch 6 evaluating [time: 36.17s, valid_score: 0.167400]
+Mon 24 Mar 2025 16:07:40 INFO  valid result: 
+recall@20 : 0.1674    ndcg@20 : 0.0824    hit@20 : 0.237    mrr@20 : 0.0717
+Mon 24 Mar 2025 16:07:40 INFO  Saving current: saved/EMCDR-Mar-24-2025_16-03-41.pth
+Mon 24 Mar 2025 16:07:41 INFO  epoch 7 training [time: 0.31s, train loss: 8.2544]
+Mon 24 Mar 2025 16:08:24 INFO  epoch 7 evaluating [time: 43.28s, valid_score: 0.171200]
+Mon 24 Mar 2025 16:08:24 INFO  valid result: 
+recall@20 : 0.1712    ndcg@20 : 0.0847    hit@20 : 0.2408    mrr@20 : 0.0737
+Mon 24 Mar 2025 16:08:24 INFO  Saving current: saved/EMCDR-Mar-24-2025_16-03-41.pth
+Mon 24 Mar 2025 16:08:25 INFO  epoch 8 training [time: 0.42s, train loss: 7.3630]
+Mon 24 Mar 2025 16:09:03 INFO  epoch 8 evaluating [time: 38.18s, valid_score: 0.174700]
+Mon 24 Mar 2025 16:09:03 INFO  valid result: 
+recall@20 : 0.1747    ndcg@20 : 0.086    hit@20 : 0.2476    mrr@20 : 0.0751
+Mon 24 Mar 2025 16:09:03 INFO  Saving current: saved/EMCDR-Mar-24-2025_16-03-41.pth
+Mon 24 Mar 2025 16:09:03 INFO  epoch 9 training [time: 0.30s, train loss: 6.5923]
+Mon 24 Mar 2025 16:09:39 INFO  epoch 9 evaluating [time: 36.39s, valid_score: 0.176300]
+Mon 24 Mar 2025 16:09:39 INFO  valid result: 
+recall@20 : 0.1763    ndcg@20 : 0.0859    hit@20 : 0.2491    mrr@20 : 0.0741
+Mon 24 Mar 2025 16:09:40 INFO  Saving current: saved/EMCDR-Mar-24-2025_16-03-41.pth
+Mon 24 Mar 2025 16:09:40 INFO  epoch 10 training [time: 0.42s, train loss: 5.9983]
+Mon 24 Mar 2025 16:10:16 INFO  epoch 10 evaluating [time: 35.84s, valid_score: 0.177100]
+Mon 24 Mar 2025 16:10:16 INFO  valid result: 
+recall@20 : 0.1771    ndcg@20 : 0.086    hit@20 : 0.2498    mrr@20 : 0.0738
+Mon 24 Mar 2025 16:10:16 INFO  Saving current: saved/EMCDR-Mar-24-2025_16-03-41.pth
+Mon 24 Mar 2025 16:10:16 INFO  epoch 11 training [time: 0.40s, train loss: 5.4671]
+Mon 24 Mar 2025 16:10:56 INFO  epoch 11 evaluating [time: 39.75s, valid_score: 0.179100]
+Mon 24 Mar 2025 16:10:56 INFO  valid result: 
+recall@20 : 0.1791    ndcg@20 : 0.087    hit@20 : 0.2519    mrr@20 : 0.0746
+Mon 24 Mar 2025 16:10:56 INFO  Saving current: saved/EMCDR-Mar-24-2025_16-03-41.pth
+Mon 24 Mar 2025 16:10:56 INFO  epoch 12 training [time: 0.33s, train loss: 5.0460]
+Mon 24 Mar 2025 16:11:35 INFO  epoch 12 evaluating [time: 38.36s, valid_score: 0.182300]
+Mon 24 Mar 2025 16:11:35 INFO  valid result: 
+recall@20 : 0.1823    ndcg@20 : 0.088    hit@20 : 0.2565    mrr@20 : 0.0747
+Mon 24 Mar 2025 16:11:35 INFO  Saving current: saved/EMCDR-Mar-24-2025_16-03-41.pth
+Mon 24 Mar 2025 16:11:35 INFO  epoch 13 training [time: 0.39s, train loss: 4.6497]
+Mon 24 Mar 2025 16:12:21 INFO  epoch 13 evaluating [time: 45.85s, valid_score: 0.182000]
+Mon 24 Mar 2025 16:12:21 INFO  valid result: 
+recall@20 : 0.182    ndcg@20 : 0.0886    hit@20 : 0.2548    mrr@20 : 0.0763
+Mon 24 Mar 2025 16:12:21 INFO  epoch 14 training [time: 0.42s, train loss: 4.3533]
+Mon 24 Mar 2025 16:13:06 INFO  epoch 14 evaluating [time: 44.96s, valid_score: 0.180800]
+Mon 24 Mar 2025 16:13:06 INFO  valid result: 
+recall@20 : 0.1808    ndcg@20 : 0.0881    hit@20 : 0.2532    mrr@20 : 0.0756
+Mon 24 Mar 2025 16:13:07 INFO  epoch 15 training [time: 0.42s, train loss: 4.0678]
+Mon 24 Mar 2025 16:13:52 INFO  epoch 15 evaluating [time: 44.90s, valid_score: 0.180900]
+Mon 24 Mar 2025 16:13:52 INFO  valid result: 
+recall@20 : 0.1809    ndcg@20 : 0.0888    hit@20 : 0.253    mrr@20 : 0.0768
+Mon 24 Mar 2025 16:13:52 INFO  epoch 16 training [time: 0.26s, train loss: 3.8111]
+Mon 24 Mar 2025 16:14:22 INFO  epoch 16 evaluating [time: 29.62s, valid_score: 0.182800]
+Mon 24 Mar 2025 16:14:22 INFO  valid result: 
+recall@20 : 0.1828    ndcg@20 : 0.0889    hit@20 : 0.256    mrr@20 : 0.0758
+Mon 24 Mar 2025 16:14:22 INFO  Saving current: saved/EMCDR-Mar-24-2025_16-03-41.pth
+Mon 24 Mar 2025 16:14:22 INFO  epoch 17 training [time: 0.42s, train loss: 3.6538]
+Mon 24 Mar 2025 16:15:00 INFO  epoch 17 evaluating [time: 38.01s, valid_score: 0.181500]
+Mon 24 Mar 2025 16:15:00 INFO  valid result: 
+recall@20 : 0.1815    ndcg@20 : 0.0895    hit@20 : 0.2551    mrr@20 : 0.0772
+Mon 24 Mar 2025 16:15:00 INFO  epoch 18 training [time: 0.34s, train loss: 3.4845]
+Mon 24 Mar 2025 16:15:40 INFO  epoch 18 evaluating [time: 39.42s, valid_score: 0.180900]
+Mon 24 Mar 2025 16:15:40 INFO  valid result: 
+recall@20 : 0.1809    ndcg@20 : 0.0887    hit@20 : 0.2544    mrr@20 : 0.076
+Mon 24 Mar 2025 16:15:40 INFO  epoch 19 training [time: 0.32s, train loss: 3.3491]
+Mon 24 Mar 2025 16:16:11 INFO  epoch 19 evaluating [time: 31.11s, valid_score: 0.180600]
+Mon 24 Mar 2025 16:16:11 INFO  valid result: 
+recall@20 : 0.1806    ndcg@20 : 0.0891    hit@20 : 0.2544    mrr@20 : 0.077
+Mon 24 Mar 2025 16:16:12 INFO  epoch 20 training [time: 0.32s, train loss: 3.2359]
+Mon 24 Mar 2025 16:16:45 INFO  epoch 20 evaluating [time: 33.83s, valid_score: 0.181300]
+Mon 24 Mar 2025 16:16:45 INFO  valid result: 
+recall@20 : 0.1813    ndcg@20 : 0.0894    hit@20 : 0.2551    mrr@20 : 0.0775
+Mon 24 Mar 2025 16:16:46 INFO  epoch 21 training [time: 0.28s, train loss: 3.1113]
+Mon 24 Mar 2025 16:17:18 INFO  epoch 21 evaluating [time: 32.26s, valid_score: 0.179900]
+Mon 24 Mar 2025 16:17:18 INFO  valid result: 
+recall@20 : 0.1799    ndcg@20 : 0.0886    hit@20 : 0.2543    mrr@20 : 0.0766
+Mon 24 Mar 2025 16:17:18 INFO  epoch 22 training [time: 0.38s, train loss: 3.0259]
+Mon 24 Mar 2025 16:17:54 INFO  epoch 22 evaluating [time: 35.47s, valid_score: 0.177300]
+Mon 24 Mar 2025 16:17:54 INFO  valid result: 
+recall@20 : 0.1773    ndcg@20 : 0.0883    hit@20 : 0.2512    mrr@20 : 0.0765
+Mon 24 Mar 2025 16:17:54 INFO  epoch 23 training [time: 0.36s, train loss: 2.9531]
+Mon 24 Mar 2025 16:18:29 INFO  epoch 23 evaluating [time: 35.28s, valid_score: 0.179300]
+Mon 24 Mar 2025 16:18:29 INFO  valid result: 
+recall@20 : 0.1793    ndcg@20 : 0.0886    hit@20 : 0.2526    mrr@20 : 0.0763
+Mon 24 Mar 2025 16:18:30 INFO  epoch 24 training [time: 0.31s, train loss: 2.8578]
+Mon 24 Mar 2025 16:19:00 INFO  epoch 24 evaluating [time: 30.00s, valid_score: 0.179500]
+Mon 24 Mar 2025 16:19:00 INFO  valid result: 
+recall@20 : 0.1795    ndcg@20 : 0.0885    hit@20 : 0.2531    mrr@20 : 0.0762
+Mon 24 Mar 2025 16:19:00 INFO  epoch 25 training [time: 0.35s, train loss: 2.7904]
+Mon 24 Mar 2025 16:19:34 INFO  epoch 25 evaluating [time: 33.53s, valid_score: 0.180100]
+Mon 24 Mar 2025 16:19:34 INFO  valid result: 
+recall@20 : 0.1801    ndcg@20 : 0.0883    hit@20 : 0.2534    mrr@20 : 0.076
+Mon 24 Mar 2025 16:19:34 INFO  epoch 26 training [time: 0.34s, train loss: 2.7508]
+Mon 24 Mar 2025 16:20:03 INFO  epoch 26 evaluating [time: 28.98s, valid_score: 0.180200]
+Mon 24 Mar 2025 16:20:03 INFO  valid result: 
+recall@20 : 0.1802    ndcg@20 : 0.0883    hit@20 : 0.2542    mrr@20 : 0.0758
+Mon 24 Mar 2025 16:20:03 INFO  epoch 27 training [time: 0.30s, train loss: 2.6657]
+Mon 24 Mar 2025 16:20:34 INFO  epoch 27 evaluating [time: 30.41s, valid_score: 0.179400]
+Mon 24 Mar 2025 16:20:34 INFO  valid result: 
+recall@20 : 0.1794    ndcg@20 : 0.0882    hit@20 : 0.2526    mrr@20 : 0.076
+Mon 24 Mar 2025 16:20:34 INFO  Finished training, best eval result in epoch 16
+Mon 24 Mar 2025 16:20:34 INFO  Start training with TARGET mode
+Mon 24 Mar 2025 16:20:34 INFO  epoch 0 training [time: 0.18s, train loss: 18.5011]
+Mon 24 Mar 2025 16:20:53 INFO  epoch 0 evaluating [time: 19.39s, valid_score: 0.010400]
+Mon 24 Mar 2025 16:20:53 INFO  valid result: 
+recall@20 : 0.0104    ndcg@20 : 0.0047    hit@20 : 0.0238    mrr@20 : 0.0054
+Mon 24 Mar 2025 16:20:53 INFO  Saving current: saved/EMCDR-Mar-24-2025_16-03-41.pth
+Mon 24 Mar 2025 16:20:54 INFO  epoch 1 training [time: 0.18s, train loss: 18.3338]
+Mon 24 Mar 2025 16:21:09 INFO  epoch 1 evaluating [time: 15.12s, valid_score: 0.040000]
+Mon 24 Mar 2025 16:21:09 INFO  valid result: 
+recall@20 : 0.04    ndcg@20 : 0.0192    hit@20 : 0.0845    mrr@20 : 0.0206
+Mon 24 Mar 2025 16:21:09 INFO  Saving current: saved/EMCDR-Mar-24-2025_16-03-41.pth
+Mon 24 Mar 2025 16:21:09 INFO  epoch 2 training [time: 0.23s, train loss: 17.8058]
+Mon 24 Mar 2025 16:21:29 INFO  epoch 2 evaluating [time: 19.76s, valid_score: 0.089400]
+Mon 24 Mar 2025 16:21:29 INFO  valid result: 
+recall@20 : 0.0894    ndcg@20 : 0.0419    hit@20 : 0.1501    mrr@20 : 0.0398
+Mon 24 Mar 2025 16:21:29 INFO  Saving current: saved/EMCDR-Mar-24-2025_16-03-41.pth
+Mon 24 Mar 2025 16:21:29 INFO  epoch 3 training [time: 0.20s, train loss: 16.1278]
+Mon 24 Mar 2025 16:21:48 INFO  epoch 3 evaluating [time: 18.97s, valid_score: 0.105100]
+Mon 24 Mar 2025 16:21:48 INFO  valid result: 
+recall@20 : 0.1051    ndcg@20 : 0.0505    hit@20 : 0.1677    mrr@20 : 0.0478
+Mon 24 Mar 2025 16:21:48 INFO  Saving current: saved/EMCDR-Mar-24-2025_16-03-41.pth
+Mon 24 Mar 2025 16:21:48 INFO  epoch 4 training [time: 0.20s, train loss: 12.8738]
+Mon 24 Mar 2025 16:22:08 INFO  epoch 4 evaluating [time: 19.50s, valid_score: 0.108700]
+Mon 24 Mar 2025 16:22:08 INFO  valid result: 
+recall@20 : 0.1087    ndcg@20 : 0.0531    hit@20 : 0.1736    mrr@20 : 0.0508
+Mon 24 Mar 2025 16:22:08 INFO  Saving current: saved/EMCDR-Mar-24-2025_16-03-41.pth
+Mon 24 Mar 2025 16:22:08 INFO  epoch 5 training [time: 0.22s, train loss: 9.3781]
+Mon 24 Mar 2025 16:22:22 INFO  epoch 5 evaluating [time: 13.73s, valid_score: 0.119100]
+Mon 24 Mar 2025 16:22:22 INFO  valid result: 
+recall@20 : 0.1191    ndcg@20 : 0.058    hit@20 : 0.1863    mrr@20 : 0.0552
+Mon 24 Mar 2025 16:22:22 INFO  Saving current: saved/EMCDR-Mar-24-2025_16-03-41.pth
+Mon 24 Mar 2025 16:22:22 INFO  epoch 6 training [time: 0.16s, train loss: 7.1500]
+Mon 24 Mar 2025 16:22:42 INFO  epoch 6 evaluating [time: 19.79s, valid_score: 0.129600]
+Mon 24 Mar 2025 16:22:42 INFO  valid result: 
+recall@20 : 0.1296    ndcg@20 : 0.0635    hit@20 : 0.2011    mrr@20 : 0.0592
+Mon 24 Mar 2025 16:22:42 INFO  Saving current: saved/EMCDR-Mar-24-2025_16-03-41.pth
+Mon 24 Mar 2025 16:22:42 INFO  epoch 7 training [time: 0.20s, train loss: 5.9370]
+Mon 24 Mar 2025 16:22:56 INFO  epoch 7 evaluating [time: 13.87s, valid_score: 0.136700]
+Mon 24 Mar 2025 16:22:56 INFO  valid result: 
+recall@20 : 0.1367    ndcg@20 : 0.0658    hit@20 : 0.2097    mrr@20 : 0.0607
+Mon 24 Mar 2025 16:22:56 INFO  Saving current: saved/EMCDR-Mar-24-2025_16-03-41.pth
+Mon 24 Mar 2025 16:22:56 INFO  epoch 8 training [time: 0.16s, train loss: 5.1983]
+Mon 24 Mar 2025 16:23:16 INFO  epoch 8 evaluating [time: 19.75s, valid_score: 0.137100]
+Mon 24 Mar 2025 16:23:16 INFO  valid result: 
+recall@20 : 0.1371    ndcg@20 : 0.0659    hit@20 : 0.212    mrr@20 : 0.061
+Mon 24 Mar 2025 16:23:16 INFO  Saving current: saved/EMCDR-Mar-24-2025_16-03-41.pth
+Mon 24 Mar 2025 16:23:16 INFO  epoch 9 training [time: 0.19s, train loss: 4.6698]
+Mon 24 Mar 2025 16:23:36 INFO  epoch 9 evaluating [time: 19.46s, valid_score: 0.138700]
+Mon 24 Mar 2025 16:23:36 INFO  valid result: 
+recall@20 : 0.1387    ndcg@20 : 0.0667    hit@20 : 0.2142    mrr@20 : 0.0612
+Mon 24 Mar 2025 16:23:36 INFO  Saving current: saved/EMCDR-Mar-24-2025_16-03-41.pth
+Mon 24 Mar 2025 16:23:36 INFO  epoch 10 training [time: 0.22s, train loss: 4.2219]
+Mon 24 Mar 2025 16:23:55 INFO  epoch 10 evaluating [time: 19.12s, valid_score: 0.139600]
+Mon 24 Mar 2025 16:23:55 INFO  valid result: 
+recall@20 : 0.1396    ndcg@20 : 0.0668    hit@20 : 0.2156    mrr@20 : 0.0607
+Mon 24 Mar 2025 16:23:55 INFO  Saving current: saved/EMCDR-Mar-24-2025_16-03-41.pth
+Mon 24 Mar 2025 16:23:55 INFO  epoch 11 training [time: 0.25s, train loss: 3.8766]
+Mon 24 Mar 2025 16:24:09 INFO  epoch 11 evaluating [time: 13.65s, valid_score: 0.138700]
+Mon 24 Mar 2025 16:24:09 INFO  valid result: 
+recall@20 : 0.1387    ndcg@20 : 0.0666    hit@20 : 0.2168    mrr@20 : 0.0605
+Mon 24 Mar 2025 16:24:09 INFO  epoch 12 training [time: 0.13s, train loss: 3.5560]
+Mon 24 Mar 2025 16:24:27 INFO  epoch 12 evaluating [time: 17.46s, valid_score: 0.135700]
+Mon 24 Mar 2025 16:24:27 INFO  valid result: 
+recall@20 : 0.1357    ndcg@20 : 0.0652    hit@20 : 0.211    mrr@20 : 0.059
+Mon 24 Mar 2025 16:24:27 INFO  epoch 13 training [time: 0.20s, train loss: 3.3118]
+Mon 24 Mar 2025 16:24:44 INFO  epoch 13 evaluating [time: 17.32s, valid_score: 0.134100]
+Mon 24 Mar 2025 16:24:44 INFO  valid result: 
+recall@20 : 0.1341    ndcg@20 : 0.0648    hit@20 : 0.2073    mrr@20 : 0.0589
+Mon 24 Mar 2025 16:24:44 INFO  epoch 14 training [time: 0.15s, train loss: 3.0724]
+Mon 24 Mar 2025 16:25:04 INFO  epoch 14 evaluating [time: 19.70s, valid_score: 0.134000]
+Mon 24 Mar 2025 16:25:04 INFO  valid result: 
+recall@20 : 0.134    ndcg@20 : 0.0639    hit@20 : 0.2091    mrr@20 : 0.0576
+Mon 24 Mar 2025 16:25:04 INFO  epoch 15 training [time: 0.20s, train loss: 2.8401]
+Mon 24 Mar 2025 16:25:23 INFO  epoch 15 evaluating [time: 19.38s, valid_score: 0.134300]
+Mon 24 Mar 2025 16:25:23 INFO  valid result: 
+recall@20 : 0.1343    ndcg@20 : 0.0635    hit@20 : 0.2105    mrr@20 : 0.0575
+Mon 24 Mar 2025 16:25:24 INFO  epoch 16 training [time: 0.19s, train loss: 2.6658]
+Mon 24 Mar 2025 16:25:41 INFO  epoch 16 evaluating [time: 16.92s, valid_score: 0.132700]
+Mon 24 Mar 2025 16:25:41 INFO  valid result: 
+recall@20 : 0.1327    ndcg@20 : 0.0633    hit@20 : 0.2069    mrr@20 : 0.0572
+Mon 24 Mar 2025 16:25:41 INFO  epoch 17 training [time: 0.17s, train loss: 2.5065]
+Mon 24 Mar 2025 16:26:47 INFO  epoch 17 evaluating [time: 66.59s, valid_score: 0.134600]
+Mon 24 Mar 2025 16:26:47 INFO  valid result: 
+recall@20 : 0.1346    ndcg@20 : 0.0637    hit@20 : 0.2087    mrr@20 : 0.0571
+Mon 24 Mar 2025 16:26:48 INFO  epoch 18 training [time: 0.15s, train loss: 2.3486]
+Mon 24 Mar 2025 16:27:06 INFO  epoch 18 evaluating [time: 18.95s, valid_score: 0.134400]
+Mon 24 Mar 2025 16:27:06 INFO  valid result: 
+recall@20 : 0.1344    ndcg@20 : 0.0643    hit@20 : 0.2089    mrr@20 : 0.0578
+Mon 24 Mar 2025 16:27:07 INFO  epoch 19 training [time: 0.18s, train loss: 2.2268]
+Mon 24 Mar 2025 16:27:21 INFO  epoch 19 evaluating [time: 14.59s, valid_score: 0.135200]
+Mon 24 Mar 2025 16:27:21 INFO  valid result: 
+recall@20 : 0.1352    ndcg@20 : 0.0647    hit@20 : 0.2103    mrr@20 : 0.0578
+Mon 24 Mar 2025 16:27:21 INFO  epoch 20 training [time: 0.17s, train loss: 2.1352]
+Mon 24 Mar 2025 16:27:37 INFO  epoch 20 evaluating [time: 15.41s, valid_score: 0.136800]
+Mon 24 Mar 2025 16:27:37 INFO  valid result: 
+recall@20 : 0.1368    ndcg@20 : 0.0646    hit@20 : 0.2128    mrr@20 : 0.0576
+Mon 24 Mar 2025 16:27:37 INFO  epoch 21 training [time: 0.14s, train loss: 2.0024]
+Mon 24 Mar 2025 16:27:52 INFO  epoch 21 evaluating [time: 14.87s, valid_score: 0.136900]
+Mon 24 Mar 2025 16:27:52 INFO  valid result: 
+recall@20 : 0.1369    ndcg@20 : 0.0649    hit@20 : 0.212    mrr@20 : 0.0582
+Mon 24 Mar 2025 16:27:52 INFO  Finished training, best eval result in epoch 10
+Mon 24 Mar 2025 16:27:52 INFO  Start training with OVERLAP mode
+Mon 24 Mar 2025 16:27:52 INFO  epoch 0 training [time: 0.04s, train loss: 0.2814]
+Mon 24 Mar 2025 16:28:06 INFO  epoch 0 evaluating [time: 13.79s, valid_score: 0.122900]
+Mon 24 Mar 2025 16:28:06 INFO  valid result: 
+recall@20 : 0.1229    ndcg@20 : 0.0576    hit@20 : 0.1871    mrr@20 : 0.0495
+Mon 24 Mar 2025 16:28:06 INFO  Saving current: saved/EMCDR-Mar-24-2025_16-03-41.pth
+Mon 24 Mar 2025 16:28:06 INFO  epoch 1 training [time: 0.03s, train loss: 0.1939]
+Mon 24 Mar 2025 16:28:23 INFO  epoch 1 evaluating [time: 17.38s, valid_score: 0.126700]
+Mon 24 Mar 2025 16:28:23 INFO  valid result: 
+recall@20 : 0.1267    ndcg@20 : 0.0598    hit@20 : 0.1954    mrr@20 : 0.0518
+Mon 24 Mar 2025 16:28:23 INFO  Saving current: saved/EMCDR-Mar-24-2025_16-03-41.pth
+Mon 24 Mar 2025 16:28:23 INFO  epoch 2 training [time: 0.03s, train loss: 0.1536]
+Mon 24 Mar 2025 16:28:38 INFO  epoch 2 evaluating [time: 15.18s, valid_score: 0.128200]
+Mon 24 Mar 2025 16:28:38 INFO  valid result: 
+recall@20 : 0.1282    ndcg@20 : 0.061    hit@20 : 0.1988    mrr@20 : 0.0536
+Mon 24 Mar 2025 16:28:38 INFO  Saving current: saved/EMCDR-Mar-24-2025_16-03-41.pth
+Mon 24 Mar 2025 16:28:39 INFO  epoch 3 training [time: 0.05s, train loss: 0.1278]
+Mon 24 Mar 2025 16:28:57 INFO  epoch 3 evaluating [time: 18.81s, valid_score: 0.129200]
+Mon 24 Mar 2025 16:28:57 INFO  valid result: 
+recall@20 : 0.1292    ndcg@20 : 0.0614    hit@20 : 0.2008    mrr@20 : 0.0542
+Mon 24 Mar 2025 16:28:57 INFO  Saving current: saved/EMCDR-Mar-24-2025_16-03-41.pth
+Mon 24 Mar 2025 16:28:57 INFO  epoch 4 training [time: 0.03s, train loss: 0.1120]
+Mon 24 Mar 2025 16:29:13 INFO  epoch 4 evaluating [time: 15.44s, valid_score: 0.129000]
+Mon 24 Mar 2025 16:29:13 INFO  valid result: 
+recall@20 : 0.129    ndcg@20 : 0.0617    hit@20 : 0.2019    mrr@20 : 0.0554
+Mon 24 Mar 2025 16:29:13 INFO  epoch 5 training [time: 0.03s, train loss: 0.1014]
+Mon 24 Mar 2025 16:29:33 INFO  epoch 5 evaluating [time: 19.66s, valid_score: 0.129300]
+Mon 24 Mar 2025 16:29:33 INFO  valid result: 
+recall@20 : 0.1293    ndcg@20 : 0.0622    hit@20 : 0.2023    mrr@20 : 0.0563
+Mon 24 Mar 2025 16:29:33 INFO  Saving current: saved/EMCDR-Mar-24-2025_16-03-41.pth
+Mon 24 Mar 2025 16:29:33 INFO  epoch 6 training [time: 0.03s, train loss: 0.0941]
+Mon 24 Mar 2025 16:29:53 INFO  epoch 6 evaluating [time: 20.19s, valid_score: 0.130600]
+Mon 24 Mar 2025 16:29:53 INFO  valid result: 
+recall@20 : 0.1306    ndcg@20 : 0.0628    hit@20 : 0.2049    mrr@20 : 0.0569
+Mon 24 Mar 2025 16:29:53 INFO  Saving current: saved/EMCDR-Mar-24-2025_16-03-41.pth
+Mon 24 Mar 2025 16:29:53 INFO  epoch 7 training [time: 0.03s, train loss: 0.0884]
+Mon 24 Mar 2025 16:30:10 INFO  epoch 7 evaluating [time: 17.44s, valid_score: 0.131300]
+Mon 24 Mar 2025 16:30:10 INFO  valid result: 
+recall@20 : 0.1313    ndcg@20 : 0.0633    hit@20 : 0.2065    mrr@20 : 0.0578
+Mon 24 Mar 2025 16:30:10 INFO  Saving current: saved/EMCDR-Mar-24-2025_16-03-41.pth
+Mon 24 Mar 2025 16:30:11 INFO  epoch 8 training [time: 0.04s, train loss: 0.0838]
+Mon 24 Mar 2025 16:30:24 INFO  epoch 8 evaluating [time: 13.18s, valid_score: 0.131600]
+Mon 24 Mar 2025 16:30:24 INFO  valid result: 
+recall@20 : 0.1316    ndcg@20 : 0.0633    hit@20 : 0.2067    mrr@20 : 0.0575
+Mon 24 Mar 2025 16:30:24 INFO  Saving current: saved/EMCDR-Mar-24-2025_16-03-41.pth
+Mon 24 Mar 2025 16:30:24 INFO  epoch 9 training [time: 0.05s, train loss: 0.0799]
+Mon 24 Mar 2025 16:30:42 INFO  epoch 9 evaluating [time: 18.37s, valid_score: 0.131700]
+Mon 24 Mar 2025 16:30:42 INFO  valid result: 
+recall@20 : 0.1317    ndcg@20 : 0.0636    hit@20 : 0.2067    mrr@20 : 0.0578
+Mon 24 Mar 2025 16:30:42 INFO  Saving current: saved/EMCDR-Mar-24-2025_16-03-41.pth
+Mon 24 Mar 2025 16:30:42 INFO  epoch 10 training [time: 0.03s, train loss: 0.0759]
+Mon 24 Mar 2025 16:31:02 INFO  epoch 10 evaluating [time: 19.83s, valid_score: 0.131700]
+Mon 24 Mar 2025 16:31:02 INFO  valid result: 
+recall@20 : 0.1317    ndcg@20 : 0.0636    hit@20 : 0.2069    mrr@20 : 0.0581
+Mon 24 Mar 2025 16:31:02 INFO  Saving current: saved/EMCDR-Mar-24-2025_16-03-41.pth
+Mon 24 Mar 2025 16:31:02 INFO  epoch 11 training [time: 0.03s, train loss: 0.0725]
+Mon 24 Mar 2025 16:31:19 INFO  epoch 11 evaluating [time: 16.57s, valid_score: 0.132600]
+Mon 24 Mar 2025 16:31:19 INFO  valid result: 
+recall@20 : 0.1326    ndcg@20 : 0.0639    hit@20 : 0.2079    mrr@20 : 0.058
+Mon 24 Mar 2025 16:31:19 INFO  Saving current: saved/EMCDR-Mar-24-2025_16-03-41.pth
+Mon 24 Mar 2025 16:31:19 INFO  epoch 12 training [time: 0.05s, train loss: 0.0697]
+Mon 24 Mar 2025 16:31:38 INFO  epoch 12 evaluating [time: 19.18s, valid_score: 0.132700]
+Mon 24 Mar 2025 16:31:38 INFO  valid result: 
+recall@20 : 0.1327    ndcg@20 : 0.0641    hit@20 : 0.2085    mrr@20 : 0.0584
+Mon 24 Mar 2025 16:31:38 INFO  Saving current: saved/EMCDR-Mar-24-2025_16-03-41.pth
+Mon 24 Mar 2025 16:31:38 INFO  epoch 13 training [time: 0.04s, train loss: 0.0669]
+Mon 24 Mar 2025 16:31:58 INFO  epoch 13 evaluating [time: 19.45s, valid_score: 0.132800]
+Mon 24 Mar 2025 16:31:58 INFO  valid result: 
+recall@20 : 0.1328    ndcg@20 : 0.0641    hit@20 : 0.2081    mrr@20 : 0.0583
+Mon 24 Mar 2025 16:31:58 INFO  Saving current: saved/EMCDR-Mar-24-2025_16-03-41.pth
+Mon 24 Mar 2025 16:31:58 INFO  epoch 14 training [time: 0.03s, train loss: 0.0642]
+Mon 24 Mar 2025 16:32:18 INFO  epoch 14 evaluating [time: 20.37s, valid_score: 0.133200]
+Mon 24 Mar 2025 16:32:18 INFO  valid result: 
+recall@20 : 0.1332    ndcg@20 : 0.0643    hit@20 : 0.2087    mrr@20 : 0.0584
+Mon 24 Mar 2025 16:32:18 INFO  Saving current: saved/EMCDR-Mar-24-2025_16-03-41.pth
+Mon 24 Mar 2025 16:32:18 INFO  epoch 15 training [time: 0.04s, train loss: 0.0618]
+Mon 24 Mar 2025 16:32:38 INFO  epoch 15 evaluating [time: 19.42s, valid_score: 0.133400]
+Mon 24 Mar 2025 16:32:38 INFO  valid result: 
+recall@20 : 0.1334    ndcg@20 : 0.0645    hit@20 : 0.2085    mrr@20 : 0.0588
+Mon 24 Mar 2025 16:32:38 INFO  Saving current: saved/EMCDR-Mar-24-2025_16-03-41.pth
+Mon 24 Mar 2025 16:32:38 INFO  epoch 16 training [time: 0.05s, train loss: 0.0594]
+Mon 24 Mar 2025 16:32:54 INFO  epoch 16 evaluating [time: 16.39s, valid_score: 0.133400]
+Mon 24 Mar 2025 16:32:54 INFO  valid result: 
+recall@20 : 0.1334    ndcg@20 : 0.0647    hit@20 : 0.2085    mrr@20 : 0.0594
+Mon 24 Mar 2025 16:32:54 INFO  Saving current: saved/EMCDR-Mar-24-2025_16-03-41.pth
+Mon 24 Mar 2025 16:32:54 INFO  epoch 17 training [time: 0.03s, train loss: 0.0572]
+Mon 24 Mar 2025 16:33:06 INFO  epoch 17 evaluating [time: 11.76s, valid_score: 0.133400]
+Mon 24 Mar 2025 16:33:06 INFO  valid result: 
+recall@20 : 0.1334    ndcg@20 : 0.0645    hit@20 : 0.2085    mrr@20 : 0.0586
+Mon 24 Mar 2025 16:33:06 INFO  Saving current: saved/EMCDR-Mar-24-2025_16-03-41.pth
+Mon 24 Mar 2025 16:33:06 INFO  epoch 18 training [time: 0.03s, train loss: 0.0549]
+Mon 24 Mar 2025 16:33:25 INFO  epoch 18 evaluating [time: 18.58s, valid_score: 0.133600]
+Mon 24 Mar 2025 16:33:25 INFO  valid result: 
+recall@20 : 0.1336    ndcg@20 : 0.0648    hit@20 : 0.2091    mrr@20 : 0.0594
+Mon 24 Mar 2025 16:33:25 INFO  Saving current: saved/EMCDR-Mar-24-2025_16-03-41.pth
+Mon 24 Mar 2025 16:33:25 INFO  epoch 19 training [time: 0.04s, train loss: 0.0530]
+Mon 24 Mar 2025 16:33:38 INFO  epoch 19 evaluating [time: 13.20s, valid_score: 0.133100]
+Mon 24 Mar 2025 16:33:38 INFO  valid result: 
+recall@20 : 0.1331    ndcg@20 : 0.0646    hit@20 : 0.2077    mrr@20 : 0.0592
+Mon 24 Mar 2025 16:33:38 INFO  epoch 20 training [time: 0.03s, train loss: 0.0511]
+Mon 24 Mar 2025 16:33:57 INFO  epoch 20 evaluating [time: 19.18s, valid_score: 0.133700]
+Mon 24 Mar 2025 16:33:57 INFO  valid result: 
+recall@20 : 0.1337    ndcg@20 : 0.0648    hit@20 : 0.2085    mrr@20 : 0.0589
+Mon 24 Mar 2025 16:33:57 INFO  Saving current: saved/EMCDR-Mar-24-2025_16-03-41.pth
+Mon 24 Mar 2025 16:33:57 INFO  epoch 21 training [time: 0.03s, train loss: 0.0491]
+Mon 24 Mar 2025 16:34:18 INFO  epoch 21 evaluating [time: 20.47s, valid_score: 0.134600]
+Mon 24 Mar 2025 16:34:18 INFO  valid result: 
+recall@20 : 0.1346    ndcg@20 : 0.0652    hit@20 : 0.2097    mrr@20 : 0.0596
+Mon 24 Mar 2025 16:34:18 INFO  Saving current: saved/EMCDR-Mar-24-2025_16-03-41.pth
+Mon 24 Mar 2025 16:34:18 INFO  epoch 22 training [time: 0.04s, train loss: 0.0471]
+Mon 24 Mar 2025 16:34:32 INFO  epoch 22 evaluating [time: 13.70s, valid_score: 0.134100]
+Mon 24 Mar 2025 16:34:32 INFO  valid result: 
+recall@20 : 0.1341    ndcg@20 : 0.065    hit@20 : 0.2089    mrr@20 : 0.0595
+Mon 24 Mar 2025 16:34:32 INFO  epoch 23 training [time: 0.04s, train loss: 0.0451]
+Mon 24 Mar 2025 16:34:46 INFO  epoch 23 evaluating [time: 14.73s, valid_score: 0.134400]
+Mon 24 Mar 2025 16:34:46 INFO  valid result: 
+recall@20 : 0.1344    ndcg@20 : 0.0653    hit@20 : 0.2089    mrr@20 : 0.0596
+Mon 24 Mar 2025 16:34:46 INFO  epoch 24 training [time: 0.05s, train loss: 0.0434]
+Mon 24 Mar 2025 16:35:06 INFO  epoch 24 evaluating [time: 20.16s, valid_score: 0.134300]
+Mon 24 Mar 2025 16:35:06 INFO  valid result: 
+recall@20 : 0.1343    ndcg@20 : 0.0654    hit@20 : 0.2097    mrr@20 : 0.0602
+Mon 24 Mar 2025 16:35:07 INFO  epoch 25 training [time: 0.03s, train loss: 0.0420]
+Mon 24 Mar 2025 16:35:26 INFO  epoch 25 evaluating [time: 19.66s, valid_score: 0.134600]
+Mon 24 Mar 2025 16:35:26 INFO  valid result: 
+recall@20 : 0.1346    ndcg@20 : 0.0655    hit@20 : 0.2095    mrr@20 : 0.0602
+Mon 24 Mar 2025 16:35:26 INFO  Saving current: saved/EMCDR-Mar-24-2025_16-03-41.pth
+Mon 24 Mar 2025 16:35:26 INFO  epoch 26 training [time: 0.03s, train loss: 0.0402]
+Mon 24 Mar 2025 16:35:41 INFO  epoch 26 evaluating [time: 14.45s, valid_score: 0.134300]
+Mon 24 Mar 2025 16:35:41 INFO  valid result: 
+recall@20 : 0.1343    ndcg@20 : 0.0653    hit@20 : 0.2093    mrr@20 : 0.0602
+Mon 24 Mar 2025 16:35:41 INFO  epoch 27 training [time: 0.04s, train loss: 0.0385]
+Mon 24 Mar 2025 16:35:53 INFO  epoch 27 evaluating [time: 12.45s, valid_score: 0.134800]
+Mon 24 Mar 2025 16:35:53 INFO  valid result: 
+recall@20 : 0.1348    ndcg@20 : 0.0654    hit@20 : 0.2099    mrr@20 : 0.0599
+Mon 24 Mar 2025 16:35:53 INFO  Saving current: saved/EMCDR-Mar-24-2025_16-03-41.pth
+Mon 24 Mar 2025 16:35:53 INFO  epoch 28 training [time: 0.03s, train loss: 0.0372]
+Mon 24 Mar 2025 16:36:06 INFO  epoch 28 evaluating [time: 12.73s, valid_score: 0.134600]
+Mon 24 Mar 2025 16:36:06 INFO  valid result: 
+recall@20 : 0.1346    ndcg@20 : 0.0654    hit@20 : 0.2099    mrr@20 : 0.06
+Mon 24 Mar 2025 16:36:06 INFO  epoch 29 training [time: 0.03s, train loss: 0.0359]
+Mon 24 Mar 2025 16:36:26 INFO  epoch 29 evaluating [time: 19.80s, valid_score: 0.134200]
+Mon 24 Mar 2025 16:36:26 INFO  valid result: 
+recall@20 : 0.1342    ndcg@20 : 0.0655    hit@20 : 0.2099    mrr@20 : 0.0604
+Mon 24 Mar 2025 16:36:26 INFO  epoch 30 training [time: 0.06s, train loss: 0.0347]
+Mon 24 Mar 2025 16:36:42 INFO  epoch 30 evaluating [time: 16.38s, valid_score: 0.134900]
+Mon 24 Mar 2025 16:36:42 INFO  valid result: 
+recall@20 : 0.1349    ndcg@20 : 0.0656    hit@20 : 0.2105    mrr@20 : 0.0602
+Mon 24 Mar 2025 16:36:42 INFO  Saving current: saved/EMCDR-Mar-24-2025_16-03-41.pth
+Mon 24 Mar 2025 16:36:42 INFO  epoch 31 training [time: 0.04s, train loss: 0.0333]
+Mon 24 Mar 2025 16:37:02 INFO  epoch 31 evaluating [time: 19.98s, valid_score: 0.134800]
+Mon 24 Mar 2025 16:37:02 INFO  valid result: 
+recall@20 : 0.1348    ndcg@20 : 0.0657    hit@20 : 0.2107    mrr@20 : 0.0606
+Mon 24 Mar 2025 16:37:02 INFO  epoch 32 training [time: 0.03s, train loss: 0.0318]
+Mon 24 Mar 2025 16:37:22 INFO  epoch 32 evaluating [time: 19.53s, valid_score: 0.134900]
+Mon 24 Mar 2025 16:37:22 INFO  valid result: 
+recall@20 : 0.1349    ndcg@20 : 0.0656    hit@20 : 0.2107    mrr@20 : 0.0604
+Mon 24 Mar 2025 16:37:22 INFO  Saving current: saved/EMCDR-Mar-24-2025_16-03-41.pth
+Mon 24 Mar 2025 16:37:22 INFO  epoch 33 training [time: 0.03s, train loss: 0.0307]
+Mon 24 Mar 2025 16:37:42 INFO  epoch 33 evaluating [time: 20.35s, valid_score: 0.134700]
+Mon 24 Mar 2025 16:37:42 INFO  valid result: 
+recall@20 : 0.1347    ndcg@20 : 0.0656    hit@20 : 0.2103    mrr@20 : 0.0605
+Mon 24 Mar 2025 16:37:42 INFO  epoch 34 training [time: 0.04s, train loss: 0.0294]
+Mon 24 Mar 2025 16:38:03 INFO  epoch 34 evaluating [time: 20.39s, valid_score: 0.134900]
+Mon 24 Mar 2025 16:38:03 INFO  valid result: 
+recall@20 : 0.1349    ndcg@20 : 0.0657    hit@20 : 0.211    mrr@20 : 0.0603
+Mon 24 Mar 2025 16:38:03 INFO  Saving current: saved/EMCDR-Mar-24-2025_16-03-41.pth
+Mon 24 Mar 2025 16:38:03 INFO  epoch 35 training [time: 0.04s, train loss: 0.0284]
+Mon 24 Mar 2025 16:38:20 INFO  epoch 35 evaluating [time: 17.53s, valid_score: 0.134700]
+Mon 24 Mar 2025 16:38:20 INFO  valid result: 
+recall@20 : 0.1347    ndcg@20 : 0.0655    hit@20 : 0.2105    mrr@20 : 0.0601
+Mon 24 Mar 2025 16:38:20 INFO  epoch 36 training [time: 0.04s, train loss: 0.0270]
+Mon 24 Mar 2025 16:38:37 INFO  epoch 36 evaluating [time: 16.90s, valid_score: 0.134700]
+Mon 24 Mar 2025 16:38:37 INFO  valid result: 
+recall@20 : 0.1347    ndcg@20 : 0.0657    hit@20 : 0.2105    mrr@20 : 0.0605
+Mon 24 Mar 2025 16:38:37 INFO  epoch 37 training [time: 0.04s, train loss: 0.0259]
+Mon 24 Mar 2025 16:38:53 INFO  epoch 37 evaluating [time: 15.94s, valid_score: 0.135500]
+Mon 24 Mar 2025 16:38:53 INFO  valid result: 
+recall@20 : 0.1355    ndcg@20 : 0.0657    hit@20 : 0.2118    mrr@20 : 0.0603
+Mon 24 Mar 2025 16:38:53 INFO  Saving current: saved/EMCDR-Mar-24-2025_16-03-41.pth
+Mon 24 Mar 2025 16:38:53 INFO  epoch 38 training [time: 0.04s, train loss: 0.0251]
+Mon 24 Mar 2025 16:39:09 INFO  epoch 38 evaluating [time: 15.10s, valid_score: 0.135500]
+Mon 24 Mar 2025 16:39:09 INFO  valid result: 
+recall@20 : 0.1355    ndcg@20 : 0.0658    hit@20 : 0.2112    mrr@20 : 0.0606
+Mon 24 Mar 2025 16:39:09 INFO  Saving current: saved/EMCDR-Mar-24-2025_16-03-41.pth
+Mon 24 Mar 2025 16:39:09 INFO  epoch 39 training [time: 0.03s, train loss: 0.0242]
+Mon 24 Mar 2025 16:39:29 INFO  epoch 39 evaluating [time: 20.24s, valid_score: 0.135900]
+Mon 24 Mar 2025 16:39:29 INFO  valid result: 
+recall@20 : 0.1359    ndcg@20 : 0.0657    hit@20 : 0.2114    mrr@20 : 0.0602
+Mon 24 Mar 2025 16:39:29 INFO  Saving current: saved/EMCDR-Mar-24-2025_16-03-41.pth
+Mon 24 Mar 2025 16:39:29 INFO  epoch 40 training [time: 0.04s, train loss: 0.0231]
+Mon 24 Mar 2025 16:39:42 INFO  epoch 40 evaluating [time: 12.86s, valid_score: 0.135200]
+Mon 24 Mar 2025 16:39:42 INFO  valid result: 
+recall@20 : 0.1352    ndcg@20 : 0.0656    hit@20 : 0.2103    mrr@20 : 0.0603
+Mon 24 Mar 2025 16:39:42 INFO  epoch 41 training [time: 0.04s, train loss: 0.0224]
+Mon 24 Mar 2025 16:39:59 INFO  epoch 41 evaluating [time: 17.12s, valid_score: 0.135700]
+Mon 24 Mar 2025 16:39:59 INFO  valid result: 
+recall@20 : 0.1357    ndcg@20 : 0.0657    hit@20 : 0.211    mrr@20 : 0.06
+Mon 24 Mar 2025 16:39:59 INFO  epoch 42 training [time: 0.05s, train loss: 0.0215]
+Mon 24 Mar 2025 16:40:12 INFO  epoch 42 evaluating [time: 12.51s, valid_score: 0.135700]
+Mon 24 Mar 2025 16:40:12 INFO  valid result: 
+recall@20 : 0.1357    ndcg@20 : 0.0657    hit@20 : 0.2107    mrr@20 : 0.0604
+Mon 24 Mar 2025 16:40:12 INFO  epoch 43 training [time: 0.03s, train loss: 0.0206]
+Mon 24 Mar 2025 16:40:27 INFO  epoch 43 evaluating [time: 15.46s, valid_score: 0.135700]
+Mon 24 Mar 2025 16:40:27 INFO  valid result: 
+recall@20 : 0.1357    ndcg@20 : 0.0657    hit@20 : 0.2107    mrr@20 : 0.0601
+Mon 24 Mar 2025 16:40:27 INFO  epoch 44 training [time: 0.05s, train loss: 0.0201]
+Mon 24 Mar 2025 16:40:43 INFO  epoch 44 evaluating [time: 15.50s, valid_score: 0.135600]
+Mon 24 Mar 2025 16:40:43 INFO  valid result: 
+recall@20 : 0.1356    ndcg@20 : 0.0657    hit@20 : 0.211    mrr@20 : 0.0605
+Mon 24 Mar 2025 16:40:43 INFO  epoch 45 training [time: 0.04s, train loss: 0.0190]
+Mon 24 Mar 2025 16:41:37 INFO  epoch 45 evaluating [time: 53.95s, valid_score: 0.135600]
+Mon 24 Mar 2025 16:41:37 INFO  valid result: 
+recall@20 : 0.1356    ndcg@20 : 0.0656    hit@20 : 0.2112    mrr@20 : 0.06
+Mon 24 Mar 2025 16:41:37 INFO  epoch 46 training [time: 0.04s, train loss: 0.0183]
+Mon 24 Mar 2025 16:41:56 INFO  epoch 46 evaluating [time: 18.57s, valid_score: 0.135600]
+Mon 24 Mar 2025 16:41:56 INFO  valid result: 
+recall@20 : 0.1356    ndcg@20 : 0.0657    hit@20 : 0.2114    mrr@20 : 0.0603
+Mon 24 Mar 2025 16:41:56 INFO  epoch 47 training [time: 0.04s, train loss: 0.0178]
+Mon 24 Mar 2025 16:42:12 INFO  epoch 47 evaluating [time: 16.54s, valid_score: 0.135900]
+Mon 24 Mar 2025 16:42:12 INFO  valid result: 
+recall@20 : 0.1359    ndcg@20 : 0.0657    hit@20 : 0.2116    mrr@20 : 0.0602
+Mon 24 Mar 2025 16:42:12 INFO  Saving current: saved/EMCDR-Mar-24-2025_16-03-41.pth
+Mon 24 Mar 2025 16:42:12 INFO  epoch 48 training [time: 0.03s, train loss: 0.0170]
+Mon 24 Mar 2025 16:42:31 INFO  epoch 48 evaluating [time: 18.49s, valid_score: 0.135500]
+Mon 24 Mar 2025 16:42:31 INFO  valid result: 
+recall@20 : 0.1355    ndcg@20 : 0.0656    hit@20 : 0.2105    mrr@20 : 0.0603
+Mon 24 Mar 2025 16:42:31 INFO  epoch 49 training [time: 0.03s, train loss: 0.0163]
+Mon 24 Mar 2025 16:42:43 INFO  epoch 49 evaluating [time: 12.60s, valid_score: 0.135900]
+Mon 24 Mar 2025 16:42:43 INFO  valid result: 
+recall@20 : 0.1359    ndcg@20 : 0.0657    hit@20 : 0.2114    mrr@20 : 0.0603
+Mon 24 Mar 2025 16:42:43 INFO  Saving current: saved/EMCDR-Mar-24-2025_16-03-41.pth
+Mon 24 Mar 2025 16:42:43 INFO  epoch 50 training [time: 0.03s, train loss: 0.0158]
+Mon 24 Mar 2025 16:42:56 INFO  epoch 50 evaluating [time: 12.47s, valid_score: 0.135500]
+Mon 24 Mar 2025 16:42:56 INFO  valid result: 
+recall@20 : 0.1355    ndcg@20 : 0.0656    hit@20 : 0.2105    mrr@20 : 0.0601
+Mon 24 Mar 2025 16:42:56 INFO  epoch 51 training [time: 0.05s, train loss: 0.0149]
+Mon 24 Mar 2025 16:43:13 INFO  epoch 51 evaluating [time: 16.68s, valid_score: 0.135600]
+Mon 24 Mar 2025 16:43:13 INFO  valid result: 
+recall@20 : 0.1356    ndcg@20 : 0.0656    hit@20 : 0.211    mrr@20 : 0.0603
+Mon 24 Mar 2025 16:43:13 INFO  epoch 52 training [time: 0.04s, train loss: 0.0146]
+Mon 24 Mar 2025 16:43:32 INFO  epoch 52 evaluating [time: 19.78s, valid_score: 0.135400]
+Mon 24 Mar 2025 16:43:32 INFO  valid result: 
+recall@20 : 0.1354    ndcg@20 : 0.0655    hit@20 : 0.2105    mrr@20 : 0.06
+Mon 24 Mar 2025 16:43:32 INFO  epoch 53 training [time: 0.04s, train loss: 0.0140]
+Mon 24 Mar 2025 16:43:50 INFO  epoch 53 evaluating [time: 17.77s, valid_score: 0.135500]
+Mon 24 Mar 2025 16:43:50 INFO  valid result: 
+recall@20 : 0.1355    ndcg@20 : 0.0656    hit@20 : 0.2114    mrr@20 : 0.0601
+Mon 24 Mar 2025 16:43:50 INFO  epoch 54 training [time: 0.04s, train loss: 0.0135]
+Mon 24 Mar 2025 16:44:10 INFO  epoch 54 evaluating [time: 19.39s, valid_score: 0.135100]
+Mon 24 Mar 2025 16:44:10 INFO  valid result: 
+recall@20 : 0.1351    ndcg@20 : 0.0654    hit@20 : 0.2107    mrr@20 : 0.0601
+Mon 24 Mar 2025 16:44:10 INFO  epoch 55 training [time: 0.04s, train loss: 0.0131]
+Mon 24 Mar 2025 16:44:25 INFO  epoch 55 evaluating [time: 15.67s, valid_score: 0.135400]
+Mon 24 Mar 2025 16:44:25 INFO  valid result: 
+recall@20 : 0.1354    ndcg@20 : 0.0655    hit@20 : 0.2107    mrr@20 : 0.0601
+Mon 24 Mar 2025 16:44:25 INFO  epoch 56 training [time: 0.04s, train loss: 0.0126]
+Mon 24 Mar 2025 16:44:37 INFO  epoch 56 evaluating [time: 11.83s, valid_score: 0.135400]
+Mon 24 Mar 2025 16:44:37 INFO  valid result: 
+recall@20 : 0.1354    ndcg@20 : 0.0655    hit@20 : 0.2101    mrr@20 : 0.06
+Mon 24 Mar 2025 16:44:37 INFO  epoch 57 training [time: 0.03s, train loss: 0.0121]
+Mon 24 Mar 2025 16:44:56 INFO  epoch 57 evaluating [time: 19.01s, valid_score: 0.134800]
+Mon 24 Mar 2025 16:44:56 INFO  valid result: 
+recall@20 : 0.1348    ndcg@20 : 0.0654    hit@20 : 0.2093    mrr@20 : 0.0601
+Mon 24 Mar 2025 16:44:56 INFO  epoch 58 training [time: 0.04s, train loss: 0.0114]
+Mon 24 Mar 2025 16:45:15 INFO  epoch 58 evaluating [time: 18.94s, valid_score: 0.135700]
+Mon 24 Mar 2025 16:45:15 INFO  valid result: 
+recall@20 : 0.1357    ndcg@20 : 0.0656    hit@20 : 0.2107    mrr@20 : 0.0601
+Mon 24 Mar 2025 16:45:15 INFO  epoch 59 training [time: 0.03s, train loss: 0.0111]
+Mon 24 Mar 2025 16:45:33 INFO  epoch 59 evaluating [time: 17.63s, valid_score: 0.135100]
+Mon 24 Mar 2025 16:45:33 INFO  valid result: 
+recall@20 : 0.1351    ndcg@20 : 0.0654    hit@20 : 0.2101    mrr@20 : 0.06
+Mon 24 Mar 2025 16:45:33 INFO  epoch 60 training [time: 0.05s, train loss: 0.0106]
+Mon 24 Mar 2025 16:45:53 INFO  epoch 60 evaluating [time: 19.69s, valid_score: 0.135200]
+Mon 24 Mar 2025 16:45:53 INFO  valid result: 
+recall@20 : 0.1352    ndcg@20 : 0.0655    hit@20 : 0.2101    mrr@20 : 0.0602
+Mon 24 Mar 2025 16:45:53 INFO  Finished training, best eval result in epoch 49
+Mon 24 Mar 2025 16:45:53 INFO  Loading model structure and parameters from saved/EMCDR-Mar-24-2025_16-03-41.pth
+Mon 24 Mar 2025 16:46:07 INFO  best valid : OrderedDict([('recall@20', 0.1359), ('ndcg@20', 0.0657), ('hit@20', 0.2114), ('mrr@20', 0.0603)])
+Mon 24 Mar 2025 16:46:07 INFO  test result: OrderedDict([('recall@20', 0.1468), ('ndcg@20', 0.0712), ('hit@20', 0.2247), ('mrr@20', 0.0653)])

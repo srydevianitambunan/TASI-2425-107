@@ -1,0 +1,22 @@
+epochs: 300               # Jumlah epoch
+train_batch_size: 4096    # Ukuran batch saat pelatihan
+learning_rate: 0.001     # Learning rate untuk optimizer
+eval_batch_size: 4096    # Ukuran batch saat evaluasi
+early_stop: True
+stopping_step: 10
+
+eval_args: 
+  split: 
+    RS: [0.6, 0.2, 0.2]  # Pembagian dataset menjadi 60% pelatihan, 20% validasi, 20% pengujian
+  split_valid: 
+    RS: [0.6, 0.2, 0.2]  # Pembagian dataset validasi yang sama
+  group_by: user
+  order: RO
+  mode: full
+metrics: 
+  - Recall
+  - NDCG
+  - Hit
+  - MRR
+topk: [10, 20, 30]  # Top 10, 20, dan 30 rekomendasi
+valid_metric: Recall@20  # Gunakan Recall@20 untuk evaluasi top-20 rekomendasi

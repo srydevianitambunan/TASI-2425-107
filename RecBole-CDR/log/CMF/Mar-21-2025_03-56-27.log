@@ -1,0 +1,126 @@
+Fri 21 Mar 2025 03:56:27 INFO  
+General Hyper Parameters:
+gpu_id = 0
+use_gpu = True
+seed = 2022
+state = INFO
+reproducibility = True
+data_path = dataset/
+checkpoint_dir = saved
+show_progress = True
+save_dataset = False
+dataset_save_path = None
+save_dataloaders = False
+dataloaders_save_path = None
+log_wandb = False
+config_file = ../testing.yaml
+
+Training Hyper Parameters:
+train_batch_size = 2048
+learner = adam
+learning_rate = 0.001
+neg_sampling = {'uniform': 1}
+eval_step = 1
+stopping_step = 10
+clip_grad_norm = None
+weight_decay = 0.0
+loss_decimal_place = 4
+epochs = 300
+
+Evaluation Hyper Parameters:
+eval_args = {'split': {'RS': [0.8, 0.1, 0.1]}, 'split_valid': {'RS': [0.8, 0.2]}, 'group_by': 'user', 'order': 'RO', 'mode': 'full'}
+repeatable = False
+metrics = ['Recall', 'NDCG']
+topk = [10, 20]
+valid_metric = Recall@10
+valid_metric_bigger = True
+eval_batch_size = 2048
+metric_decimal_place = 4
+
+Dataset Hyper Parameters:
+field_separator = 	
+source_domain = {'dataset': 'ml-100k', 'data_path': '/notebooks/RecBole-CDR/recbole_cdr/config/../dataset_example/ml-100k', 'seq_separator': ' ', 'USER_ID_FIELD': 'user_id', 'ITEM_ID_FIELD': 'item_id', 'RATING_FIELD': 'rating', 'TIME_FIELD': 'timestamp', 'NEG_PREFIX': 'neg_', 'LABEL_FIELD': 'label', 'load_col': {'inter': ['user_id', 'item_id', 'rating']}, 'user_inter_num_interval': '[5,inf)', 'item_inter_num_interval': '[5,inf)', 'val_interval': {'rating': '[3,inf)'}, 'drop_filter_field': True}
+target_domain = {'dataset': 'ml-1m', 'data_path': '/notebooks/RecBole-CDR/recbole_cdr/config/../dataset_example/ml-1m', 'seq_separator': ',', 'USER_ID_FIELD': 'user_id', 'ITEM_ID_FIELD': 'item_id', 'RATING_FIELD': 'rating', 'TIME_FIELD': 'timestamp', 'NEG_PREFIX': 'neg_', 'LABEL_FIELD': 'label', 'load_col': {'inter': ['user_id', 'item_id', 'rating']}, 'user_inter_num_interval': '[5,inf)', 'item_inter_num_interval': '[5,inf)', 'val_interval': {'rating': '[3,inf)'}, 'drop_filter_field': True}
+
+Other Hyper Parameters: 
+wandb_project = recbole_cdr
+train_epochs = ['BOTH:300']
+require_pow = False
+embedding_size = 64
+alpha = 0.5
+lambda = 0
+gamma = 0
+MODEL_TYPE = ModelType.CROSSDOMAIN
+num_forward_layers = 2
+num_backward_layers = 2
+MODEL_INPUT_TYPE = InputType.POINTWISE
+eval_type = EvaluatorType.RANKING
+train_modes = ['BOTH']
+epoch_num = ['300']
+source_split = False
+device = cuda
+train_neg_sample_args = {'strategy': 'by', 'by': 1, 'distribution': 'uniform', 'dynamic': 'none'}
+eval_neg_sample_args = {'strategy': 'full', 'distribution': 'uniform'}
+
+
+Fri 21 Mar 2025 03:56:34 INFO  Source domain: ml-100k
+The number of users: 944
+Average actions of users: 86.64369034994698
+The number of items: 1197
+Average actions of items: 68.31521739130434
+The number of inters: 81705
+The sparsity of the dataset: 92.76926426235079%
+Remain Fields: ['source_user_id', 'source_item_id', 'source_rating']
+Target domain: ml-1m
+The number of users: 6039
+Average actions of users: 138.42149718449818
+The number of items: 3308
+Average actions of items: 252.73329301481706
+The number of inters: 835789
+The sparsity of the dataset: 95.81624619337467%
+Remain Fields: ['target_user_id', 'target_item_id', 'target_rating']
+Num of overlapped user: 1
+Num of overlapped item: 1154
+Fri 21 Mar 2025 03:56:36 INFO  [Training]: train_batch_size = [2048] negative sampling: [{'uniform': 1}]
+Fri 21 Mar 2025 03:56:36 INFO  [Evaluation]: eval_batch_size = [2048] eval_args: [{'split': {'RS': [0.8, 0.1, 0.1]}, 'split_valid': {'RS': [0.8, 0.2]}, 'group_by': 'user', 'order': 'RO', 'mode': 'full'}]
+Fri 21 Mar 2025 03:56:37 INFO  CMF(
+  (user_embedding): Embedding(6982, 64)
+  (item_embedding): Embedding(3351, 64)
+  (sigmoid): Sigmoid()
+  (loss): BCELoss()
+  (source_reg_loss): EmbLoss()
+  (target_reg_loss): EmbLoss()
+)
+Trainable parameters: 661312
+Fri 21 Mar 2025 03:56:37 INFO  Start training with BOTH mode
+Fri 21 Mar 2025 03:56:40 INFO  epoch 0 training [time: 2.99s, train loss: 378.8121]
+Fri 21 Mar 2025 03:56:50 INFO  epoch 0 evaluating [time: 9.93s, valid_score: 0.066800]
+Fri 21 Mar 2025 03:56:50 INFO  valid result: 
+recall@10 : 0.0668    recall@20 : 0.1125    ndcg@10 : 0.0978    ndcg@20 : 0.1064
+Fri 21 Mar 2025 03:56:50 INFO  Saving current: saved/CMF-Mar-21-2025_03-56-37.pth
+Fri 21 Mar 2025 03:56:53 INFO  epoch 1 training [time: 3.10s, train loss: 297.3210]
+Fri 21 Mar 2025 03:57:05 INFO  epoch 1 evaluating [time: 11.56s, valid_score: 0.072900]
+Fri 21 Mar 2025 03:57:05 INFO  valid result: 
+recall@10 : 0.0729    recall@20 : 0.1223    ndcg@10 : 0.1078    ndcg@20 : 0.1168
+Fri 21 Mar 2025 03:57:05 INFO  Saving current: saved/CMF-Mar-21-2025_03-56-37.pth
+Fri 21 Mar 2025 03:57:08 INFO  epoch 2 training [time: 2.96s, train loss: 273.0101]
+Fri 21 Mar 2025 03:57:18 INFO  epoch 2 evaluating [time: 10.32s, valid_score: 0.080600]
+Fri 21 Mar 2025 03:57:18 INFO  valid result: 
+recall@10 : 0.0806    recall@20 : 0.1354    ndcg@10 : 0.1202    ndcg@20 : 0.1287
+Fri 21 Mar 2025 03:57:18 INFO  Saving current: saved/CMF-Mar-21-2025_03-56-37.pth
+Fri 21 Mar 2025 03:57:21 INFO  epoch 3 training [time: 3.02s, train loss: 254.6179]
+Fri 21 Mar 2025 03:57:33 INFO  epoch 3 evaluating [time: 12.24s, valid_score: 0.087300]
+Fri 21 Mar 2025 03:57:33 INFO  valid result: 
+recall@10 : 0.0873    recall@20 : 0.1468    ndcg@10 : 0.1314    ndcg@20 : 0.1407
+Fri 21 Mar 2025 03:57:33 INFO  Saving current: saved/CMF-Mar-21-2025_03-56-37.pth
+Fri 21 Mar 2025 03:57:36 INFO  epoch 4 training [time: 3.04s, train loss: 239.0184]
+Fri 21 Mar 2025 03:57:47 INFO  epoch 4 evaluating [time: 10.68s, valid_score: 0.096500]
+Fri 21 Mar 2025 03:57:47 INFO  valid result: 
+recall@10 : 0.0965    recall@20 : 0.16    ndcg@10 : 0.1398    ndcg@20 : 0.1504
+Fri 21 Mar 2025 03:57:47 INFO  Saving current: saved/CMF-Mar-21-2025_03-56-37.pth
+Fri 21 Mar 2025 03:57:50 INFO  epoch 5 training [time: 3.09s, train loss: 225.0440]
+Fri 21 Mar 2025 03:58:07 INFO  epoch 5 evaluating [time: 17.00s, valid_score: 0.103300]
+Fri 21 Mar 2025 03:58:07 INFO  valid result: 
+recall@10 : 0.1033    recall@20 : 0.1681    ndcg@10 : 0.1465    ndcg@20 : 0.1574
+Fri 21 Mar 2025 03:58:07 INFO  Saving current: saved/CMF-Mar-21-2025_03-56-37.pth
+Fri 21 Mar 2025 03:58:10 INFO  epoch 6 training [time: 3.00s, train loss: 212.9406]

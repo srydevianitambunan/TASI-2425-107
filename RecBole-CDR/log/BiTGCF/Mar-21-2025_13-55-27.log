@@ -1,0 +1,101 @@
+Fri 21 Mar 2025 13:55:27 INFO  
+General Hyper Parameters:
+gpu_id = 0
+use_gpu = True
+seed = 2022
+state = INFO
+reproducibility = True
+data_path = dataset/
+checkpoint_dir = saved
+show_progress = True
+save_dataset = False
+dataset_save_path = None
+save_dataloaders = False
+dataloaders_save_path = None
+log_wandb = False
+config_file = /notebooks/testing.yaml
+
+Training Hyper Parameters:
+train_batch_size = 2048
+learner = adam
+learning_rate = 0.001
+neg_sampling = {'uniform': 1}
+eval_step = 1
+stopping_step = 10
+clip_grad_norm = None
+weight_decay = 0.0
+loss_decimal_place = 4
+epochs = 300
+
+Evaluation Hyper Parameters:
+eval_args = {'split': {'RS': [0.8, 0.1, 0.1]}, 'split_valid': {'RS': [0.8, 0.2]}, 'group_by': 'user', 'order': 'RO', 'mode': 'full'}
+repeatable = False
+metrics = ['Recall', 'NDCG']
+topk = [2]
+valid_metric = MRR@10
+valid_metric_bigger = True
+eval_batch_size = 2048
+metric_decimal_place = 4
+
+Dataset Hyper Parameters:
+field_separator = 	
+source_domain = {'dataset': 'book', 'data_path': '/notebooks/Dataset/book', 'seq_separator': ' ', 'USER_ID_FIELD': 'user_id', 'ITEM_ID_FIELD': 'item_id', 'RATING_FIELD': 'rating', 'TIME_FIELD': 'timestamp', 'NEG_PREFIX': 'neg_', 'LABEL_FIELD': 'label', 'load_col': {'inter': ['user_id', 'item_id', 'rating']}, 'user_inter_num_interval': '[1,inf)', 'item_inter_num_interval': '[1,inf)', 'val_interval': {'rating': '[1,inf)'}, 'drop_filter_field': True}
+target_domain = {'dataset': 'movie', 'data_path': '/notebooks/Dataset/movie', 'seq_separator': ',', 'USER_ID_FIELD': 'user_id', 'ITEM_ID_FIELD': 'item_id', 'RATING_FIELD': 'rating', 'TIME_FIELD': 'timestamp', 'NEG_PREFIX': 'neg_', 'LABEL_FIELD': 'label', 'load_col': {'inter': ['user_id', 'item_id', 'rating']}, 'user_inter_num_interval': '[1,inf)', 'item_inter_num_interval': '[1,inf)', 'val_interval': {'rating': '[1,inf)'}, 'drop_filter_field': True}
+
+Other Hyper Parameters: 
+wandb_project = recbole_cdr
+train_epochs = ['BOTH:300']
+require_pow = False
+embedding_size = 64
+n_layers = 2
+reg_weight = 0.001
+lambda_source = 0.8
+lambda_target = 0.8
+connect_way = concat
+drop_rate = 0.3
+MODEL_TYPE = ModelType.CROSSDOMAIN
+num_forward_layers = 2
+num_backward_layers = 2
+MODEL_INPUT_TYPE = InputType.POINTWISE
+eval_type = EvaluatorType.RANKING
+train_modes = ['BOTH']
+epoch_num = ['300']
+source_split = False
+device = cuda
+train_neg_sample_args = {'strategy': 'by', 'by': 1, 'distribution': 'uniform', 'dynamic': 'none'}
+eval_neg_sample_args = {'strategy': 'full', 'distribution': 'uniform'}
+
+
+Fri 21 Mar 2025 13:55:27 INFO  Source domain: book
+The number of users: 6
+Average actions of users: 14.0
+The number of items: 6
+Average actions of items: 14.0
+The number of inters: 70
+The sparsity of the dataset: -94.44444444444444%
+Remain Fields: ['source_user_id', 'source_item_id', 'source_rating']
+Target domain: movie
+The number of users: 6
+Average actions of users: 12.0
+The number of items: 6
+Average actions of items: 12.0
+The number of inters: 60
+The sparsity of the dataset: -66.66666666666667%
+Remain Fields: ['target_user_id', 'target_item_id', 'target_rating']
+Num of overlapped user: 1
+Num of overlapped item: 1
+Fri 21 Mar 2025 13:55:27 INFO  [Training]: train_batch_size = [2048] negative sampling: [{'uniform': 1}]
+Fri 21 Mar 2025 13:55:27 INFO  [Evaluation]: eval_batch_size = [2048] eval_args: [{'split': {'RS': [0.8, 0.1, 0.1]}, 'split_valid': {'RS': [0.8, 0.2]}, 'group_by': 'user', 'order': 'RO', 'mode': 'full'}]
+Fri 21 Mar 2025 13:55:29 INFO  BiTGCF(
+  (source_user_embedding): Embedding(11, 64)
+  (target_user_embedding): Embedding(11, 64)
+  (source_item_embedding): Embedding(11, 64)
+  (target_item_embedding): Embedding(11, 64)
+  (dropout): Dropout(p=0.3, inplace=False)
+  (loss): BCELoss()
+  (sigmoid): Sigmoid()
+  (reg_loss): EmbLoss()
+)
+Trainable parameters: 2816
+Fri 21 Mar 2025 13:55:29 INFO  Start training with BOTH mode
+Fri 21 Mar 2025 13:55:29 INFO  epoch 0 training [time: 0.03s, train_loss1: 0.4778, train_loss2: 0.4352]

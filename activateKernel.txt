@@ -1,0 +1,8 @@
+bash Miniconda3-latest-Linux-x86_64.sh
+eval "$(/root/miniconda3/bin/conda shell.bash hook)"
+ ⁠eval "$(/home/tasi2425107/miniconda3/bin/conda shell.bash hook)"
+conda create -n pyEnv37 python=3.7
+conda activate pyEnv37
+pip install notebook
+python -m ipykernel install --user --name pyEnv37 --display-name "pyEnv37"
+pip install recbole==1.0.1

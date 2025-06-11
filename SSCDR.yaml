@@ -1,0 +1,59 @@
+# config/bi_tgcf.yaml
+
+model: SSCDR
+
+# Dataset settings (You need to specify the source and target domain datasets)
+source_domain:
+  dataset: Amazon-KG-5core-Books  # e.g., "book"
+  data_path: /notebooks/Amazon-KG-v2.0-dataset
+  USER_ID_FIELD: user_id
+  ITEM_ID_FIELD: item_id
+  HEAD_ENTITY_ID_FIELD: head_id
+  TAIL_ENTITY_ID_FIELD: tail_id
+  RELATION_ID_FIELD: relation_id
+  ENTITY_ID_FIELD: entity_id
+  load_col:
+    inter: [user_id, item_id,rating]
+    kg: [head_id, relation_id, tail_id]
+    link: [item_id, entity_id]
+  val_interval:
+    rating: "[0,inf)"
+
+target_domain:
+  dataset: Amazon-KG-5core-Movies_and_TV  # e.g., "movie"
+  data_path: /notebooks/Amazon-KG-v2.0-dataset
+  USER_ID_FIELD: user_id
+  ITEM_ID_FIELD: item_id
+  HEAD_ENTITY_ID_FIELD: head_id
+  TAIL_ENTITY_ID_FIELD: tail_id
+  RELATION_ID_FIELD: relation_id
+  ENTITY_ID_FIELD: entity_id
+  load_col:
+    inter: [user_id, item_id,rating]
+    kg: [head_id, relation_id, tail_id]
+    link: [item_id, entity_id]
+  val_interval:
+    rating: "[0,inf)"
+    
+# General settings
+embedding_size: 64
+learning_rate: 0.001
+train_batch_size: 2048
+eval_batch_size: 2048
+
+
+# Evaluation settings
+eval_args: 
+  split: {'RS':[0.6,0.2,0.2]}
+  split_valid: {'RS':[0.8,0.2]}
+  group_by: user
+  order: RO
+  mode: full
+metrics: ['Recall', 'NDCG','Hit',"MRR"]
+topk: [20]
+valid_metric: Recall@20
+
+# BiTGCF specific parameters (These are example parameters, you should refer to the BiTGCF paper or RecBole-CDR documentation for the actual parameters and their meanings)
+num_forward_layers: 2
+num_backward_layers: 2
+# Add any other BiTGCF specific parameters here based on the documentation

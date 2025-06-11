@@ -1,0 +1,39 @@
+# config/BPR.yaml
+
+model: BPR
+
+# Dataset settings
+dataset: Amazon_Books
+data_path: /home/tasi2425107/MyProjectExport/Dataset/book
+USER_ID_FIELD: user_id
+ITEM_ID_FIELD: item_id
+
+load_col:
+  inter: [user_id, item_id]
+
+# General training settings (updated per paper)
+embedding_size: 50
+learning_rate: 0.0005
+train_batch_size: 40960
+eval_batch_size: 40960
+epochs: 300
+learner: adam
+neg_sampling:
+  uniform: 1
+weight_decay: 1e-4
+
+# Evaluation settings (align with 5.1.2 paper)
+eval_args: 
+  split: {'RS': [0.6, 0.2, 0.2]}
+  group_by: user
+  order: RO
+  mode: full
+metrics: ['Recall', 'Hit', 'MRR', 'NDCG']
+topk: [20]
+valid_metric: Recall@20
+valid_metric_bigger: True
+
+# Additional settings
+save_best_model: True
+eval_type: ranking
+evaluate_on_test: True

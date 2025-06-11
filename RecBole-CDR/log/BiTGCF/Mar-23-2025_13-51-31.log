@@ -1,0 +1,527 @@
+Sun 23 Mar 2025 13:51:31 INFO  
+General Hyper Parameters:
+gpu_id = 0
+use_gpu = True
+seed = 2022
+state = INFO
+reproducibility = True
+data_path = dataset/
+checkpoint_dir = saved
+show_progress = True
+save_dataset = False
+dataset_save_path = None
+save_dataloaders = False
+dataloaders_save_path = None
+log_wandb = False
+config_file = /notebooks/testing.yaml
+
+Training Hyper Parameters:
+train_batch_size = 2048
+learner = adam
+learning_rate = 0.001
+neg_sampling = {'uniform': 1}
+eval_step = 1
+stopping_step = 10
+clip_grad_norm = None
+weight_decay = 0.0
+loss_decimal_place = 4
+epochs = 300
+
+Evaluation Hyper Parameters:
+eval_args = {'split': {'RS': [0.8, 0.1, 0.1]}, 'split_valid': {'RS': [0.8, 0.2]}, 'group_by': 'user', 'order': 'RO', 'mode': 'full'}
+repeatable = False
+metrics = ['Recall', 'NDCG']
+topk = [10]
+valid_metric = Recall@10
+valid_metric_bigger = True
+eval_batch_size = 2048
+metric_decimal_place = 4
+
+Dataset Hyper Parameters:
+field_separator = 	
+source_domain = {'dataset': 'Amazon-KG-5core-Books', 'data_path': '/notebooks/Amazon-KG-v2.0-dataset/Amazon-KG-5core-Books', 'seq_separator': ' ', 'USER_ID_FIELD': 'user_id', 'ITEM_ID_FIELD': 'item_id', 'RATING_FIELD': 'rating', 'TIME_FIELD': 'timestamp', 'NEG_PREFIX': 'neg_', 'LABEL_FIELD': 'label', 'load_col': {'inter': ['user_id', 'item_id', 'rating']}, 'user_inter_num_interval': '[5,inf)', 'item_inter_num_interval': '[5,inf)', 'val_interval': {'rating': '[0,inf)'}, 'drop_filter_field': True, 'HEAD_ENTITY_ID_FIELD': 'head_id', 'TAIL_ENTITY_ID_FIELD': 'tail_id', 'RELATION_ID_FIELD': 'relation_id', 'ENTITY_ID_FIELD': 'entity_id'}
+target_domain = {'dataset': 'Amazon-KG-5core-Movies_and_TV', 'data_path': '/notebooks/Amazon-KG-v2.0-dataset/Amazon-KG-5core-Movies_and_TV', 'seq_separator': ',', 'USER_ID_FIELD': 'user_id', 'ITEM_ID_FIELD': 'item_id', 'RATING_FIELD': 'rating', 'TIME_FIELD': 'timestamp', 'NEG_PREFIX': 'neg_', 'LABEL_FIELD': 'label', 'load_col': {'inter': ['user_id', 'item_id', 'rating']}, 'user_inter_num_interval': '[5,inf)', 'item_inter_num_interval': '[5,inf)', 'val_interval': {'rating': '[0,inf)'}, 'drop_filter_field': True, 'HEAD_ENTITY_ID_FIELD': 'head_id', 'TAIL_ENTITY_ID_FIELD': 'tail_id', 'RELATION_ID_FIELD': 'relation_id', 'ENTITY_ID_FIELD': 'entity_id'}
+
+Other Hyper Parameters: 
+wandb_project = recbole_cdr
+train_epochs = ['BOTH:300']
+require_pow = False
+embedding_size = 64
+n_layers = 2
+reg_weight = 0.001
+lambda_source = 0.8
+lambda_target = 0.8
+connect_way = concat
+drop_rate = 0.3
+MODEL_TYPE = ModelType.CROSSDOMAIN
+num_forward_layers = 2
+num_backward_layers = 2
+MODEL_INPUT_TYPE = InputType.POINTWISE
+eval_type = EvaluatorType.RANKING
+train_modes = ['BOTH']
+epoch_num = ['300']
+source_split = False
+device = cuda
+train_neg_sample_args = {'strategy': 'by', 'by': 1, 'distribution': 'uniform', 'dynamic': 'none'}
+eval_neg_sample_args = {'strategy': 'full', 'distribution': 'uniform'}
+
+
+Sun 23 Mar 2025 13:51:33 INFO  Source domain: Amazon-KG-5core-Books
+The number of users: 9416
+Average actions of users: 10.893786510886883
+The number of items: 4876
+Average actions of items: 21.038974358974357
+The number of inters: 102565
+The sparsity of the dataset: 99.7766072689357%
+Remain Fields: ['source_user_id', 'source_item_id', 'source_rating']
+Target domain: Amazon-KG-5core-Movies_and_TV
+The number of users: 4950
+Average actions of users: 11.844210951707415
+The number of items: 2630
+Average actions of items: 22.296310384176493
+The number of inters: 58617
+The sparsity of the dataset: 99.54974075354303%
+Remain Fields: ['target_user_id', 'target_item_id', 'target_rating']
+Num of overlapped user: 956
+Num of overlapped item: 1
+Sun 23 Mar 2025 13:51:33 INFO  [Training]: train_batch_size = [2048] negative sampling: [{'uniform': 1}]
+Sun 23 Mar 2025 13:51:33 INFO  [Evaluation]: eval_batch_size = [2048] eval_args: [{'split': {'RS': [0.8, 0.1, 0.1]}, 'split_valid': {'RS': [0.8, 0.2]}, 'group_by': 'user', 'order': 'RO', 'mode': 'full'}]
+Sun 23 Mar 2025 13:51:36 INFO  BiTGCF(
+  (source_user_embedding): Embedding(13410, 64)
+  (target_user_embedding): Embedding(13410, 64)
+  (source_item_embedding): Embedding(7505, 64)
+  (target_item_embedding): Embedding(7505, 64)
+  (dropout): Dropout(p=0.3, inplace=False)
+  (loss): BCELoss()
+  (sigmoid): Sigmoid()
+  (reg_loss): EmbLoss()
+)
+Trainable parameters: 2677120
+Sun 23 Mar 2025 13:51:36 INFO  Start training with BOTH mode
+Sun 23 Mar 2025 13:51:37 INFO  epoch 0 training [time: 1.26s, train_loss1: 28.7444, train_loss2: 28.5196]
+Sun 23 Mar 2025 13:51:49 INFO  epoch 0 evaluating [time: 12.53s, valid_score: 0.044700]
+Sun 23 Mar 2025 13:51:49 INFO  valid result: 
+recall@10 : 0.0447    ndcg@10 : 0.0222
+Sun 23 Mar 2025 13:51:50 INFO  Saving current: saved/BiTGCF-Mar-23-2025_13-51-36.pth
+Sun 23 Mar 2025 13:51:51 INFO  epoch 1 training [time: 1.24s, train_loss1: 26.9945, train_loss2: 26.3220]
+Sun 23 Mar 2025 13:52:03 INFO  epoch 1 evaluating [time: 12.49s, valid_score: 0.070600]
+Sun 23 Mar 2025 13:52:03 INFO  valid result: 
+recall@10 : 0.0706    ndcg@10 : 0.035
+Sun 23 Mar 2025 13:52:03 INFO  Saving current: saved/BiTGCF-Mar-23-2025_13-51-36.pth
+Sun 23 Mar 2025 13:52:05 INFO  epoch 2 training [time: 1.31s, train_loss1: 26.0891, train_loss2: 25.3518]
+Sun 23 Mar 2025 13:52:18 INFO  epoch 2 evaluating [time: 12.93s, valid_score: 0.072100]
+Sun 23 Mar 2025 13:52:18 INFO  valid result: 
+recall@10 : 0.0721    ndcg@10 : 0.0358
+Sun 23 Mar 2025 13:52:18 INFO  Saving current: saved/BiTGCF-Mar-23-2025_13-51-36.pth
+Sun 23 Mar 2025 13:52:19 INFO  epoch 3 training [time: 1.29s, train_loss1: 25.6377, train_loss2: 24.8634]
+Sun 23 Mar 2025 13:52:32 INFO  epoch 3 evaluating [time: 12.70s, valid_score: 0.075900]
+Sun 23 Mar 2025 13:52:32 INFO  valid result: 
+recall@10 : 0.0759    ndcg@10 : 0.0382
+Sun 23 Mar 2025 13:52:32 INFO  Saving current: saved/BiTGCF-Mar-23-2025_13-51-36.pth
+Sun 23 Mar 2025 13:52:33 INFO  epoch 4 training [time: 1.28s, train_loss1: 25.2802, train_loss2: 24.5308]
+Sun 23 Mar 2025 13:52:42 INFO  epoch 4 evaluating [time: 9.23s, valid_score: 0.083500]
+Sun 23 Mar 2025 13:52:42 INFO  valid result: 
+recall@10 : 0.0835    ndcg@10 : 0.0414
+Sun 23 Mar 2025 13:52:42 INFO  Saving current: saved/BiTGCF-Mar-23-2025_13-51-36.pth
+Sun 23 Mar 2025 13:52:44 INFO  epoch 5 training [time: 1.21s, train_loss1: 25.0640, train_loss2: 24.2826]
+Sun 23 Mar 2025 13:52:56 INFO  epoch 5 evaluating [time: 12.81s, valid_score: 0.085700]
+Sun 23 Mar 2025 13:52:56 INFO  valid result: 
+recall@10 : 0.0857    ndcg@10 : 0.0438
+Sun 23 Mar 2025 13:52:56 INFO  Saving current: saved/BiTGCF-Mar-23-2025_13-51-36.pth
+Sun 23 Mar 2025 13:52:58 INFO  epoch 6 training [time: 1.29s, train_loss1: 24.8989, train_loss2: 24.0868]
+Sun 23 Mar 2025 13:53:06 INFO  epoch 6 evaluating [time: 8.36s, valid_score: 0.083600]
+Sun 23 Mar 2025 13:53:06 INFO  valid result: 
+recall@10 : 0.0836    ndcg@10 : 0.0426
+Sun 23 Mar 2025 13:53:07 INFO  epoch 7 training [time: 1.19s, train_loss1: 24.7318, train_loss2: 23.9673]
+Sun 23 Mar 2025 13:53:19 INFO  epoch 7 evaluating [time: 12.12s, valid_score: 0.085900]
+Sun 23 Mar 2025 13:53:19 INFO  valid result: 
+recall@10 : 0.0859    ndcg@10 : 0.0429
+Sun 23 Mar 2025 13:53:19 INFO  Saving current: saved/BiTGCF-Mar-23-2025_13-51-36.pth
+Sun 23 Mar 2025 13:53:21 INFO  epoch 8 training [time: 1.26s, train_loss1: 24.6274, train_loss2: 23.7771]
+Sun 23 Mar 2025 13:53:32 INFO  epoch 8 evaluating [time: 11.11s, valid_score: 0.085700]
+Sun 23 Mar 2025 13:53:32 INFO  valid result: 
+recall@10 : 0.0857    ndcg@10 : 0.0431
+Sun 23 Mar 2025 13:53:33 INFO  epoch 9 training [time: 1.19s, train_loss1: 24.4831, train_loss2: 23.6765]
+Sun 23 Mar 2025 13:53:42 INFO  epoch 9 evaluating [time: 9.08s, valid_score: 0.085600]
+Sun 23 Mar 2025 13:53:42 INFO  valid result: 
+recall@10 : 0.0856    ndcg@10 : 0.0436
+Sun 23 Mar 2025 13:53:43 INFO  epoch 10 training [time: 1.19s, train_loss1: 24.4132, train_loss2: 23.6265]
+Sun 23 Mar 2025 13:53:56 INFO  epoch 10 evaluating [time: 12.20s, valid_score: 0.086100]
+Sun 23 Mar 2025 13:53:56 INFO  valid result: 
+recall@10 : 0.0861    ndcg@10 : 0.0454
+Sun 23 Mar 2025 13:53:56 INFO  Saving current: saved/BiTGCF-Mar-23-2025_13-51-36.pth
+Sun 23 Mar 2025 13:53:57 INFO  epoch 11 training [time: 1.22s, train_loss1: 24.3574, train_loss2: 23.4693]
+Sun 23 Mar 2025 13:54:07 INFO  epoch 11 evaluating [time: 10.10s, valid_score: 0.088700]
+Sun 23 Mar 2025 13:54:07 INFO  valid result: 
+recall@10 : 0.0887    ndcg@10 : 0.0466
+Sun 23 Mar 2025 13:54:07 INFO  Saving current: saved/BiTGCF-Mar-23-2025_13-51-36.pth
+Sun 23 Mar 2025 13:54:08 INFO  epoch 12 training [time: 1.26s, train_loss1: 24.3309, train_loss2: 23.4589]
+Sun 23 Mar 2025 13:54:21 INFO  epoch 12 evaluating [time: 12.67s, valid_score: 0.090400]
+Sun 23 Mar 2025 13:54:21 INFO  valid result: 
+recall@10 : 0.0904    ndcg@10 : 0.0484
+Sun 23 Mar 2025 13:54:21 INFO  Saving current: saved/BiTGCF-Mar-23-2025_13-51-36.pth
+Sun 23 Mar 2025 13:54:22 INFO  epoch 13 training [time: 1.20s, train_loss1: 24.2145, train_loss2: 23.3461]
+Sun 23 Mar 2025 13:54:31 INFO  epoch 13 evaluating [time: 8.54s, valid_score: 0.094900]
+Sun 23 Mar 2025 13:54:31 INFO  valid result: 
+recall@10 : 0.0949    ndcg@10 : 0.0505
+Sun 23 Mar 2025 13:54:31 INFO  Saving current: saved/BiTGCF-Mar-23-2025_13-51-36.pth
+Sun 23 Mar 2025 13:54:32 INFO  epoch 14 training [time: 1.18s, train_loss1: 24.1275, train_loss2: 23.2568]
+Sun 23 Mar 2025 13:54:41 INFO  epoch 14 evaluating [time: 8.81s, valid_score: 0.092900]
+Sun 23 Mar 2025 13:54:41 INFO  valid result: 
+recall@10 : 0.0929    ndcg@10 : 0.0501
+Sun 23 Mar 2025 13:54:42 INFO  epoch 15 training [time: 1.18s, train_loss1: 24.1165, train_loss2: 23.1972]
+Sun 23 Mar 2025 13:54:54 INFO  epoch 15 evaluating [time: 12.47s, valid_score: 0.095200]
+Sun 23 Mar 2025 13:54:54 INFO  valid result: 
+recall@10 : 0.0952    ndcg@10 : 0.0508
+Sun 23 Mar 2025 13:54:55 INFO  Saving current: saved/BiTGCF-Mar-23-2025_13-51-36.pth
+Sun 23 Mar 2025 13:54:56 INFO  epoch 16 training [time: 1.17s, train_loss1: 24.0406, train_loss2: 23.1947]
+Sun 23 Mar 2025 13:55:08 INFO  epoch 16 evaluating [time: 11.87s, valid_score: 0.096300]
+Sun 23 Mar 2025 13:55:08 INFO  valid result: 
+recall@10 : 0.0963    ndcg@10 : 0.0504
+Sun 23 Mar 2025 13:55:08 INFO  Saving current: saved/BiTGCF-Mar-23-2025_13-51-36.pth
+Sun 23 Mar 2025 13:55:09 INFO  epoch 17 training [time: 1.23s, train_loss1: 24.0099, train_loss2: 23.1356]
+Sun 23 Mar 2025 13:55:21 INFO  epoch 17 evaluating [time: 12.36s, valid_score: 0.096400]
+Sun 23 Mar 2025 13:55:21 INFO  valid result: 
+recall@10 : 0.0964    ndcg@10 : 0.0501
+Sun 23 Mar 2025 13:55:21 INFO  Saving current: saved/BiTGCF-Mar-23-2025_13-51-36.pth
+Sun 23 Mar 2025 13:55:22 INFO  epoch 18 training [time: 1.19s, train_loss1: 23.9747, train_loss2: 23.1021]
+Sun 23 Mar 2025 13:55:35 INFO  epoch 18 evaluating [time: 12.60s, valid_score: 0.094800]
+Sun 23 Mar 2025 13:55:35 INFO  valid result: 
+recall@10 : 0.0948    ndcg@10 : 0.0504
+Sun 23 Mar 2025 13:55:36 INFO  epoch 19 training [time: 1.36s, train_loss1: 23.9384, train_loss2: 23.0290]
+Sun 23 Mar 2025 13:55:50 INFO  epoch 19 evaluating [time: 13.48s, valid_score: 0.095900]
+Sun 23 Mar 2025 13:55:50 INFO  valid result: 
+recall@10 : 0.0959    ndcg@10 : 0.051
+Sun 23 Mar 2025 13:55:51 INFO  epoch 20 training [time: 1.27s, train_loss1: 23.8891, train_loss2: 22.9784]
+Sun 23 Mar 2025 13:56:00 INFO  epoch 20 evaluating [time: 9.12s, valid_score: 0.097200]
+Sun 23 Mar 2025 13:56:00 INFO  valid result: 
+recall@10 : 0.0972    ndcg@10 : 0.0522
+Sun 23 Mar 2025 13:56:00 INFO  Saving current: saved/BiTGCF-Mar-23-2025_13-51-36.pth
+Sun 23 Mar 2025 13:56:02 INFO  epoch 21 training [time: 1.23s, train_loss1: 23.8045, train_loss2: 22.8970]
+Sun 23 Mar 2025 13:56:14 INFO  epoch 21 evaluating [time: 12.15s, valid_score: 0.097400]
+Sun 23 Mar 2025 13:56:14 INFO  valid result: 
+recall@10 : 0.0974    ndcg@10 : 0.0514
+Sun 23 Mar 2025 13:56:14 INFO  Saving current: saved/BiTGCF-Mar-23-2025_13-51-36.pth
+Sun 23 Mar 2025 13:56:15 INFO  epoch 22 training [time: 1.26s, train_loss1: 23.8106, train_loss2: 22.9186]
+Sun 23 Mar 2025 13:56:28 INFO  epoch 22 evaluating [time: 13.15s, valid_score: 0.099500]
+Sun 23 Mar 2025 13:56:28 INFO  valid result: 
+recall@10 : 0.0995    ndcg@10 : 0.0526
+Sun 23 Mar 2025 13:56:28 INFO  Saving current: saved/BiTGCF-Mar-23-2025_13-51-36.pth
+Sun 23 Mar 2025 13:56:30 INFO  epoch 23 training [time: 1.30s, train_loss1: 23.7376, train_loss2: 22.8620]
+Sun 23 Mar 2025 13:56:39 INFO  epoch 23 evaluating [time: 9.11s, valid_score: 0.102100]
+Sun 23 Mar 2025 13:56:39 INFO  valid result: 
+recall@10 : 0.1021    ndcg@10 : 0.0538
+Sun 23 Mar 2025 13:56:39 INFO  Saving current: saved/BiTGCF-Mar-23-2025_13-51-36.pth
+Sun 23 Mar 2025 13:56:40 INFO  epoch 24 training [time: 1.24s, train_loss1: 23.7496, train_loss2: 22.8400]
+Sun 23 Mar 2025 13:56:49 INFO  epoch 24 evaluating [time: 8.44s, valid_score: 0.098600]
+Sun 23 Mar 2025 13:56:49 INFO  valid result: 
+recall@10 : 0.0986    ndcg@10 : 0.0533
+Sun 23 Mar 2025 13:56:50 INFO  epoch 25 training [time: 1.17s, train_loss1: 23.7271, train_loss2: 22.8117]
+Sun 23 Mar 2025 13:57:02 INFO  epoch 25 evaluating [time: 12.79s, valid_score: 0.100500]
+Sun 23 Mar 2025 13:57:02 INFO  valid result: 
+recall@10 : 0.1005    ndcg@10 : 0.0537
+Sun 23 Mar 2025 13:57:04 INFO  epoch 26 training [time: 1.28s, train_loss1: 23.6473, train_loss2: 22.8499]
+Sun 23 Mar 2025 13:57:16 INFO  epoch 26 evaluating [time: 12.71s, valid_score: 0.099800]
+Sun 23 Mar 2025 13:57:16 INFO  valid result: 
+recall@10 : 0.0998    ndcg@10 : 0.0536
+Sun 23 Mar 2025 13:57:18 INFO  epoch 27 training [time: 1.31s, train_loss1: 23.6167, train_loss2: 22.7269]
+Sun 23 Mar 2025 13:57:26 INFO  epoch 27 evaluating [time: 7.77s, valid_score: 0.099700]
+Sun 23 Mar 2025 13:57:26 INFO  valid result: 
+recall@10 : 0.0997    ndcg@10 : 0.0541
+Sun 23 Mar 2025 13:57:27 INFO  epoch 28 training [time: 1.19s, train_loss1: 23.5327, train_loss2: 22.7372]
+Sun 23 Mar 2025 13:57:34 INFO  epoch 28 evaluating [time: 7.61s, valid_score: 0.101400]
+Sun 23 Mar 2025 13:57:34 INFO  valid result: 
+recall@10 : 0.1014    ndcg@10 : 0.0544
+Sun 23 Mar 2025 13:57:36 INFO  epoch 29 training [time: 1.21s, train_loss1: 23.5874, train_loss2: 22.6801]
+Sun 23 Mar 2025 13:57:46 INFO  epoch 29 evaluating [time: 10.29s, valid_score: 0.102100]
+Sun 23 Mar 2025 13:57:46 INFO  valid result: 
+recall@10 : 0.1021    ndcg@10 : 0.0551
+Sun 23 Mar 2025 13:57:46 INFO  Saving current: saved/BiTGCF-Mar-23-2025_13-51-36.pth
+Sun 23 Mar 2025 13:57:47 INFO  epoch 30 training [time: 1.24s, train_loss1: 23.4786, train_loss2: 22.6323]
+Sun 23 Mar 2025 13:58:00 INFO  epoch 30 evaluating [time: 12.74s, valid_score: 0.101300]
+Sun 23 Mar 2025 13:58:00 INFO  valid result: 
+recall@10 : 0.1013    ndcg@10 : 0.0553
+Sun 23 Mar 2025 13:58:01 INFO  epoch 31 training [time: 1.23s, train_loss1: 23.4636, train_loss2: 22.6286]
+Sun 23 Mar 2025 13:58:10 INFO  epoch 31 evaluating [time: 8.61s, valid_score: 0.099800]
+Sun 23 Mar 2025 13:58:10 INFO  valid result: 
+recall@10 : 0.0998    ndcg@10 : 0.0545
+Sun 23 Mar 2025 13:58:11 INFO  epoch 32 training [time: 1.19s, train_loss1: 23.4362, train_loss2: 22.5309]
+Sun 23 Mar 2025 13:58:23 INFO  epoch 32 evaluating [time: 12.31s, valid_score: 0.100500]
+Sun 23 Mar 2025 13:58:23 INFO  valid result: 
+recall@10 : 0.1005    ndcg@10 : 0.054
+Sun 23 Mar 2025 13:58:25 INFO  epoch 33 training [time: 1.26s, train_loss1: 23.4088, train_loss2: 22.5580]
+Sun 23 Mar 2025 13:58:33 INFO  epoch 33 evaluating [time: 8.28s, valid_score: 0.101300]
+Sun 23 Mar 2025 13:58:33 INFO  valid result: 
+recall@10 : 0.1013    ndcg@10 : 0.0549
+Sun 23 Mar 2025 13:58:34 INFO  epoch 34 training [time: 1.15s, train_loss1: 23.4061, train_loss2: 22.4816]
+Sun 23 Mar 2025 13:58:42 INFO  epoch 34 evaluating [time: 8.51s, valid_score: 0.102000]
+Sun 23 Mar 2025 13:58:42 INFO  valid result: 
+recall@10 : 0.102    ndcg@10 : 0.0551
+Sun 23 Mar 2025 13:58:44 INFO  epoch 35 training [time: 1.26s, train_loss1: 23.2863, train_loss2: 22.4220]
+Sun 23 Mar 2025 13:58:51 INFO  epoch 35 evaluating [time: 7.73s, valid_score: 0.104200]
+Sun 23 Mar 2025 13:58:51 INFO  valid result: 
+recall@10 : 0.1042    ndcg@10 : 0.056
+Sun 23 Mar 2025 13:58:52 INFO  Saving current: saved/BiTGCF-Mar-23-2025_13-51-36.pth
+Sun 23 Mar 2025 13:58:53 INFO  epoch 36 training [time: 1.20s, train_loss1: 23.3347, train_loss2: 22.4137]
+Sun 23 Mar 2025 13:59:06 INFO  epoch 36 evaluating [time: 13.20s, valid_score: 0.102900]
+Sun 23 Mar 2025 13:59:06 INFO  valid result: 
+recall@10 : 0.1029    ndcg@10 : 0.0554
+Sun 23 Mar 2025 13:59:07 INFO  epoch 37 training [time: 1.25s, train_loss1: 23.2925, train_loss2: 22.4216]
+Sun 23 Mar 2025 13:59:20 INFO  epoch 37 evaluating [time: 12.58s, valid_score: 0.103400]
+Sun 23 Mar 2025 13:59:20 INFO  valid result: 
+recall@10 : 0.1034    ndcg@10 : 0.0553
+Sun 23 Mar 2025 13:59:21 INFO  epoch 38 training [time: 1.30s, train_loss1: 23.1987, train_loss2: 22.3414]
+Sun 23 Mar 2025 13:59:30 INFO  epoch 38 evaluating [time: 9.09s, valid_score: 0.103200]
+Sun 23 Mar 2025 13:59:30 INFO  valid result: 
+recall@10 : 0.1032    ndcg@10 : 0.0563
+Sun 23 Mar 2025 13:59:31 INFO  epoch 39 training [time: 1.22s, train_loss1: 23.1962, train_loss2: 22.2470]
+Sun 23 Mar 2025 13:59:39 INFO  epoch 39 evaluating [time: 7.76s, valid_score: 0.106400]
+Sun 23 Mar 2025 13:59:39 INFO  valid result: 
+recall@10 : 0.1064    ndcg@10 : 0.0579
+Sun 23 Mar 2025 13:59:39 INFO  Saving current: saved/BiTGCF-Mar-23-2025_13-51-36.pth
+Sun 23 Mar 2025 13:59:40 INFO  epoch 40 training [time: 1.21s, train_loss1: 23.2366, train_loss2: 22.2317]
+Sun 23 Mar 2025 13:59:49 INFO  epoch 40 evaluating [time: 8.95s, valid_score: 0.109500]
+Sun 23 Mar 2025 13:59:49 INFO  valid result: 
+recall@10 : 0.1095    ndcg@10 : 0.0594
+Sun 23 Mar 2025 13:59:49 INFO  Saving current: saved/BiTGCF-Mar-23-2025_13-51-36.pth
+Sun 23 Mar 2025 13:59:51 INFO  epoch 41 training [time: 1.17s, train_loss1: 23.1611, train_loss2: 22.2558]
+Sun 23 Mar 2025 14:00:03 INFO  epoch 41 evaluating [time: 12.27s, valid_score: 0.112900]
+Sun 23 Mar 2025 14:00:03 INFO  valid result: 
+recall@10 : 0.1129    ndcg@10 : 0.0611
+Sun 23 Mar 2025 14:00:03 INFO  Saving current: saved/BiTGCF-Mar-23-2025_13-51-36.pth
+Sun 23 Mar 2025 14:00:04 INFO  epoch 42 training [time: 1.29s, train_loss1: 23.0467, train_loss2: 22.2184]
+Sun 23 Mar 2025 14:00:13 INFO  epoch 42 evaluating [time: 8.97s, valid_score: 0.110800]
+Sun 23 Mar 2025 14:00:13 INFO  valid result: 
+recall@10 : 0.1108    ndcg@10 : 0.0601
+Sun 23 Mar 2025 14:00:14 INFO  epoch 43 training [time: 1.19s, train_loss1: 23.1037, train_loss2: 22.1380]
+Sun 23 Mar 2025 14:00:25 INFO  epoch 43 evaluating [time: 10.70s, valid_score: 0.110100]
+Sun 23 Mar 2025 14:00:25 INFO  valid result: 
+recall@10 : 0.1101    ndcg@10 : 0.0599
+Sun 23 Mar 2025 14:00:26 INFO  epoch 44 training [time: 1.28s, train_loss1: 23.0185, train_loss2: 22.2249]
+Sun 23 Mar 2025 14:00:36 INFO  epoch 44 evaluating [time: 9.68s, valid_score: 0.111600]
+Sun 23 Mar 2025 14:00:36 INFO  valid result: 
+recall@10 : 0.1116    ndcg@10 : 0.0602
+Sun 23 Mar 2025 14:00:37 INFO  epoch 45 training [time: 1.26s, train_loss1: 22.9558, train_loss2: 22.1198]
+Sun 23 Mar 2025 14:00:50 INFO  epoch 45 evaluating [time: 12.85s, valid_score: 0.112200]
+Sun 23 Mar 2025 14:00:50 INFO  valid result: 
+recall@10 : 0.1122    ndcg@10 : 0.0602
+Sun 23 Mar 2025 14:00:51 INFO  epoch 46 training [time: 1.25s, train_loss1: 22.9032, train_loss2: 22.0717]
+Sun 23 Mar 2025 14:01:00 INFO  epoch 46 evaluating [time: 8.54s, valid_score: 0.112200]
+Sun 23 Mar 2025 14:01:00 INFO  valid result: 
+recall@10 : 0.1122    ndcg@10 : 0.0611
+Sun 23 Mar 2025 14:01:01 INFO  epoch 47 training [time: 1.21s, train_loss1: 22.8928, train_loss2: 22.0184]
+Sun 23 Mar 2025 14:01:12 INFO  epoch 47 evaluating [time: 11.18s, valid_score: 0.112200]
+Sun 23 Mar 2025 14:01:12 INFO  valid result: 
+recall@10 : 0.1122    ndcg@10 : 0.0614
+Sun 23 Mar 2025 14:01:14 INFO  epoch 48 training [time: 1.21s, train_loss1: 22.8824, train_loss2: 22.0077]
+Sun 23 Mar 2025 14:01:27 INFO  epoch 48 evaluating [time: 12.95s, valid_score: 0.111900]
+Sun 23 Mar 2025 14:01:27 INFO  valid result: 
+recall@10 : 0.1119    ndcg@10 : 0.0611
+Sun 23 Mar 2025 14:01:28 INFO  epoch 49 training [time: 1.25s, train_loss1: 22.8075, train_loss2: 21.8874]
+Sun 23 Mar 2025 14:01:41 INFO  epoch 49 evaluating [time: 12.76s, valid_score: 0.110200]
+Sun 23 Mar 2025 14:01:41 INFO  valid result: 
+recall@10 : 0.1102    ndcg@10 : 0.0606
+Sun 23 Mar 2025 14:01:42 INFO  epoch 50 training [time: 1.27s, train_loss1: 22.7951, train_loss2: 21.8397]
+Sun 23 Mar 2025 14:01:50 INFO  epoch 50 evaluating [time: 7.85s, valid_score: 0.113400]
+Sun 23 Mar 2025 14:01:50 INFO  valid result: 
+recall@10 : 0.1134    ndcg@10 : 0.0618
+Sun 23 Mar 2025 14:01:50 INFO  Saving current: saved/BiTGCF-Mar-23-2025_13-51-36.pth
+Sun 23 Mar 2025 14:01:51 INFO  epoch 51 training [time: 1.19s, train_loss1: 22.7634, train_loss2: 21.8303]
+Sun 23 Mar 2025 14:01:59 INFO  epoch 51 evaluating [time: 8.52s, valid_score: 0.111900]
+Sun 23 Mar 2025 14:01:59 INFO  valid result: 
+recall@10 : 0.1119    ndcg@10 : 0.0614
+Sun 23 Mar 2025 14:02:01 INFO  epoch 52 training [time: 1.20s, train_loss1: 22.7479, train_loss2: 21.7766]
+Sun 23 Mar 2025 14:02:08 INFO  epoch 52 evaluating [time: 7.53s, valid_score: 0.114400]
+Sun 23 Mar 2025 14:02:08 INFO  valid result: 
+recall@10 : 0.1144    ndcg@10 : 0.0622
+Sun 23 Mar 2025 14:02:08 INFO  Saving current: saved/BiTGCF-Mar-23-2025_13-51-36.pth
+Sun 23 Mar 2025 14:02:09 INFO  epoch 53 training [time: 1.19s, train_loss1: 22.6612, train_loss2: 21.7463]
+Sun 23 Mar 2025 14:02:19 INFO  epoch 53 evaluating [time: 9.46s, valid_score: 0.112700]
+Sun 23 Mar 2025 14:02:19 INFO  valid result: 
+recall@10 : 0.1127    ndcg@10 : 0.062
+Sun 23 Mar 2025 14:02:20 INFO  epoch 54 training [time: 1.30s, train_loss1: 22.6451, train_loss2: 21.7136]
+Sun 23 Mar 2025 14:02:32 INFO  epoch 54 evaluating [time: 12.09s, valid_score: 0.113100]
+Sun 23 Mar 2025 14:02:32 INFO  valid result: 
+recall@10 : 0.1131    ndcg@10 : 0.0624
+Sun 23 Mar 2025 14:02:34 INFO  epoch 55 training [time: 1.25s, train_loss1: 22.6397, train_loss2: 21.6095]
+Sun 23 Mar 2025 14:02:43 INFO  epoch 55 evaluating [time: 9.07s, valid_score: 0.113900]
+Sun 23 Mar 2025 14:02:43 INFO  valid result: 
+recall@10 : 0.1139    ndcg@10 : 0.0625
+Sun 23 Mar 2025 14:02:44 INFO  epoch 56 training [time: 1.22s, train_loss1: 22.5437, train_loss2: 21.6714]
+Sun 23 Mar 2025 14:02:57 INFO  epoch 56 evaluating [time: 12.73s, valid_score: 0.115000]
+Sun 23 Mar 2025 14:02:57 INFO  valid result: 
+recall@10 : 0.115    ndcg@10 : 0.0632
+Sun 23 Mar 2025 14:02:57 INFO  Saving current: saved/BiTGCF-Mar-23-2025_13-51-36.pth
+Sun 23 Mar 2025 14:02:58 INFO  epoch 57 training [time: 1.25s, train_loss1: 22.5776, train_loss2: 21.5227]
+Sun 23 Mar 2025 14:03:11 INFO  epoch 57 evaluating [time: 12.60s, valid_score: 0.114600]
+Sun 23 Mar 2025 14:03:11 INFO  valid result: 
+recall@10 : 0.1146    ndcg@10 : 0.0626
+Sun 23 Mar 2025 14:03:12 INFO  epoch 58 training [time: 1.24s, train_loss1: 22.4715, train_loss2: 21.5268]
+Sun 23 Mar 2025 14:03:25 INFO  epoch 58 evaluating [time: 12.79s, valid_score: 0.114300]
+Sun 23 Mar 2025 14:03:25 INFO  valid result: 
+recall@10 : 0.1143    ndcg@10 : 0.0624
+Sun 23 Mar 2025 14:03:26 INFO  epoch 59 training [time: 1.30s, train_loss1: 22.4465, train_loss2: 21.5118]
+Sun 23 Mar 2025 14:03:38 INFO  epoch 59 evaluating [time: 12.46s, valid_score: 0.113800]
+Sun 23 Mar 2025 14:03:38 INFO  valid result: 
+recall@10 : 0.1138    ndcg@10 : 0.0629
+Sun 23 Mar 2025 14:03:40 INFO  epoch 60 training [time: 1.29s, train_loss1: 22.3931, train_loss2: 21.4503]
+Sun 23 Mar 2025 14:03:53 INFO  epoch 60 evaluating [time: 13.06s, valid_score: 0.114600]
+Sun 23 Mar 2025 14:03:53 INFO  valid result: 
+recall@10 : 0.1146    ndcg@10 : 0.0629
+Sun 23 Mar 2025 14:03:54 INFO  epoch 61 training [time: 1.24s, train_loss1: 22.4019, train_loss2: 21.3616]
+Sun 23 Mar 2025 14:04:04 INFO  epoch 61 evaluating [time: 9.78s, valid_score: 0.114400]
+Sun 23 Mar 2025 14:04:04 INFO  valid result: 
+recall@10 : 0.1144    ndcg@10 : 0.063
+Sun 23 Mar 2025 14:04:05 INFO  epoch 62 training [time: 1.22s, train_loss1: 22.2877, train_loss2: 21.3180]
+Sun 23 Mar 2025 14:04:17 INFO  epoch 62 evaluating [time: 11.72s, valid_score: 0.116200]
+Sun 23 Mar 2025 14:04:17 INFO  valid result: 
+recall@10 : 0.1162    ndcg@10 : 0.0624
+Sun 23 Mar 2025 14:04:17 INFO  Saving current: saved/BiTGCF-Mar-23-2025_13-51-36.pth
+Sun 23 Mar 2025 14:04:18 INFO  epoch 63 training [time: 1.20s, train_loss1: 22.2419, train_loss2: 21.2060]
+Sun 23 Mar 2025 14:04:30 INFO  epoch 63 evaluating [time: 12.16s, valid_score: 0.115700]
+Sun 23 Mar 2025 14:04:30 INFO  valid result: 
+recall@10 : 0.1157    ndcg@10 : 0.0628
+Sun 23 Mar 2025 14:04:31 INFO  epoch 64 training [time: 1.27s, train_loss1: 22.1956, train_loss2: 21.1588]
+Sun 23 Mar 2025 14:04:44 INFO  epoch 64 evaluating [time: 12.82s, valid_score: 0.113700]
+Sun 23 Mar 2025 14:04:44 INFO  valid result: 
+recall@10 : 0.1137    ndcg@10 : 0.0621
+Sun 23 Mar 2025 14:04:45 INFO  epoch 65 training [time: 1.23s, train_loss1: 22.1049, train_loss2: 21.0917]
+Sun 23 Mar 2025 14:04:53 INFO  epoch 65 evaluating [time: 7.47s, valid_score: 0.114000]
+Sun 23 Mar 2025 14:04:53 INFO  valid result: 
+recall@10 : 0.114    ndcg@10 : 0.0622
+Sun 23 Mar 2025 14:04:54 INFO  epoch 66 training [time: 1.18s, train_loss1: 22.0696, train_loss2: 21.0838]
+Sun 23 Mar 2025 14:05:03 INFO  epoch 66 evaluating [time: 8.93s, valid_score: 0.116200]
+Sun 23 Mar 2025 14:05:03 INFO  valid result: 
+recall@10 : 0.1162    ndcg@10 : 0.0625
+Sun 23 Mar 2025 14:05:03 INFO  Saving current: saved/BiTGCF-Mar-23-2025_13-51-36.pth
+Sun 23 Mar 2025 14:05:04 INFO  epoch 67 training [time: 1.21s, train_loss1: 22.0680, train_loss2: 21.0899]
+Sun 23 Mar 2025 14:05:17 INFO  epoch 67 evaluating [time: 12.92s, valid_score: 0.113700]
+Sun 23 Mar 2025 14:05:17 INFO  valid result: 
+recall@10 : 0.1137    ndcg@10 : 0.0618
+Sun 23 Mar 2025 14:05:18 INFO  epoch 68 training [time: 1.25s, train_loss1: 22.0526, train_loss2: 20.9131]
+Sun 23 Mar 2025 14:05:27 INFO  epoch 68 evaluating [time: 8.95s, valid_score: 0.114400]
+Sun 23 Mar 2025 14:05:27 INFO  valid result: 
+recall@10 : 0.1144    ndcg@10 : 0.0626
+Sun 23 Mar 2025 14:05:29 INFO  epoch 69 training [time: 1.35s, train_loss1: 21.9251, train_loss2: 20.9427]
+Sun 23 Mar 2025 14:05:42 INFO  epoch 69 evaluating [time: 12.97s, valid_score: 0.114000]
+Sun 23 Mar 2025 14:05:42 INFO  valid result: 
+recall@10 : 0.114    ndcg@10 : 0.0628
+Sun 23 Mar 2025 14:05:43 INFO  epoch 70 training [time: 1.30s, train_loss1: 21.8728, train_loss2: 20.8656]
+Sun 23 Mar 2025 14:05:56 INFO  epoch 70 evaluating [time: 13.11s, valid_score: 0.114900]
+Sun 23 Mar 2025 14:05:56 INFO  valid result: 
+recall@10 : 0.1149    ndcg@10 : 0.0617
+Sun 23 Mar 2025 14:05:57 INFO  epoch 71 training [time: 1.32s, train_loss1: 21.8323, train_loss2: 20.7701]
+Sun 23 Mar 2025 14:06:07 INFO  epoch 71 evaluating [time: 9.95s, valid_score: 0.114300]
+Sun 23 Mar 2025 14:06:07 INFO  valid result: 
+recall@10 : 0.1143    ndcg@10 : 0.062
+Sun 23 Mar 2025 14:06:09 INFO  epoch 72 training [time: 1.17s, train_loss1: 21.7947, train_loss2: 20.7670]
+Sun 23 Mar 2025 14:06:16 INFO  epoch 72 evaluating [time: 7.81s, valid_score: 0.116700]
+Sun 23 Mar 2025 14:06:16 INFO  valid result: 
+recall@10 : 0.1167    ndcg@10 : 0.0626
+Sun 23 Mar 2025 14:06:16 INFO  Saving current: saved/BiTGCF-Mar-23-2025_13-51-36.pth
+Sun 23 Mar 2025 14:06:18 INFO  epoch 73 training [time: 1.23s, train_loss1: 21.7364, train_loss2: 20.6805]
+Sun 23 Mar 2025 14:06:29 INFO  epoch 73 evaluating [time: 10.90s, valid_score: 0.117600]
+Sun 23 Mar 2025 14:06:29 INFO  valid result: 
+recall@10 : 0.1176    ndcg@10 : 0.0623
+Sun 23 Mar 2025 14:06:29 INFO  Saving current: saved/BiTGCF-Mar-23-2025_13-51-36.pth
+Sun 23 Mar 2025 14:06:30 INFO  epoch 74 training [time: 1.28s, train_loss1: 21.7297, train_loss2: 20.6309]
+Sun 23 Mar 2025 14:06:42 INFO  epoch 74 evaluating [time: 12.37s, valid_score: 0.116900]
+Sun 23 Mar 2025 14:06:42 INFO  valid result: 
+recall@10 : 0.1169    ndcg@10 : 0.0625
+Sun 23 Mar 2025 14:06:44 INFO  epoch 75 training [time: 1.26s, train_loss1: 21.6367, train_loss2: 20.5988]
+Sun 23 Mar 2025 14:06:52 INFO  epoch 75 evaluating [time: 8.65s, valid_score: 0.118900]
+Sun 23 Mar 2025 14:06:52 INFO  valid result: 
+recall@10 : 0.1189    ndcg@10 : 0.0632
+Sun 23 Mar 2025 14:06:52 INFO  Saving current: saved/BiTGCF-Mar-23-2025_13-51-36.pth
+Sun 23 Mar 2025 14:06:54 INFO  epoch 76 training [time: 1.17s, train_loss1: 21.5822, train_loss2: 20.4285]
+Sun 23 Mar 2025 14:07:02 INFO  epoch 76 evaluating [time: 8.63s, valid_score: 0.118200]
+Sun 23 Mar 2025 14:07:02 INFO  valid result: 
+recall@10 : 0.1182    ndcg@10 : 0.0636
+Sun 23 Mar 2025 14:07:03 INFO  epoch 77 training [time: 1.21s, train_loss1: 21.5142, train_loss2: 20.4679]
+Sun 23 Mar 2025 14:07:12 INFO  epoch 77 evaluating [time: 8.34s, valid_score: 0.118100]
+Sun 23 Mar 2025 14:07:12 INFO  valid result: 
+recall@10 : 0.1181    ndcg@10 : 0.0632
+Sun 23 Mar 2025 14:07:13 INFO  epoch 78 training [time: 1.24s, train_loss1: 21.4449, train_loss2: 20.2861]
+Sun 23 Mar 2025 14:07:25 INFO  epoch 78 evaluating [time: 12.47s, valid_score: 0.116900]
+Sun 23 Mar 2025 14:07:25 INFO  valid result: 
+recall@10 : 0.1169    ndcg@10 : 0.063
+Sun 23 Mar 2025 14:07:27 INFO  epoch 79 training [time: 1.23s, train_loss1: 21.4410, train_loss2: 20.2557]
+Sun 23 Mar 2025 14:07:39 INFO  epoch 79 evaluating [time: 12.12s, valid_score: 0.118300]
+Sun 23 Mar 2025 14:07:39 INFO  valid result: 
+recall@10 : 0.1183    ndcg@10 : 0.0637
+Sun 23 Mar 2025 14:07:40 INFO  epoch 80 training [time: 1.19s, train_loss1: 21.2923, train_loss2: 20.1236]
+Sun 23 Mar 2025 14:07:48 INFO  epoch 80 evaluating [time: 8.15s, valid_score: 0.117800]
+Sun 23 Mar 2025 14:07:48 INFO  valid result: 
+recall@10 : 0.1178    ndcg@10 : 0.0633
+Sun 23 Mar 2025 14:07:49 INFO  epoch 81 training [time: 1.21s, train_loss1: 21.3310, train_loss2: 20.0792]
+Sun 23 Mar 2025 14:07:59 INFO  epoch 81 evaluating [time: 9.47s, valid_score: 0.119400]
+Sun 23 Mar 2025 14:07:59 INFO  valid result: 
+recall@10 : 0.1194    ndcg@10 : 0.0638
+Sun 23 Mar 2025 14:07:59 INFO  Saving current: saved/BiTGCF-Mar-23-2025_13-51-36.pth
+Sun 23 Mar 2025 14:08:00 INFO  epoch 82 training [time: 1.22s, train_loss1: 21.1710, train_loss2: 19.9868]
+Sun 23 Mar 2025 14:08:08 INFO  epoch 82 evaluating [time: 7.69s, valid_score: 0.118600]
+Sun 23 Mar 2025 14:08:08 INFO  valid result: 
+recall@10 : 0.1186    ndcg@10 : 0.0634
+Sun 23 Mar 2025 14:08:09 INFO  epoch 83 training [time: 1.21s, train_loss1: 21.1785, train_loss2: 19.8663]
+Sun 23 Mar 2025 14:08:21 INFO  epoch 83 evaluating [time: 12.21s, valid_score: 0.119900]
+Sun 23 Mar 2025 14:08:21 INFO  valid result: 
+recall@10 : 0.1199    ndcg@10 : 0.0635
+Sun 23 Mar 2025 14:08:21 INFO  Saving current: saved/BiTGCF-Mar-23-2025_13-51-36.pth
+Sun 23 Mar 2025 14:08:23 INFO  epoch 84 training [time: 1.27s, train_loss1: 21.0603, train_loss2: 19.8338]
+Sun 23 Mar 2025 14:08:35 INFO  epoch 84 evaluating [time: 12.63s, valid_score: 0.119900]
+Sun 23 Mar 2025 14:08:35 INFO  valid result: 
+recall@10 : 0.1199    ndcg@10 : 0.0638
+Sun 23 Mar 2025 14:08:35 INFO  Saving current: saved/BiTGCF-Mar-23-2025_13-51-36.pth
+Sun 23 Mar 2025 14:08:37 INFO  epoch 85 training [time: 1.27s, train_loss1: 20.9789, train_loss2: 19.8313]
+Sun 23 Mar 2025 14:08:45 INFO  epoch 85 evaluating [time: 8.39s, valid_score: 0.121900]
+Sun 23 Mar 2025 14:08:45 INFO  valid result: 
+recall@10 : 0.1219    ndcg@10 : 0.0645
+Sun 23 Mar 2025 14:08:45 INFO  Saving current: saved/BiTGCF-Mar-23-2025_13-51-36.pth
+Sun 23 Mar 2025 14:08:46 INFO  epoch 86 training [time: 1.19s, train_loss1: 20.9841, train_loss2: 19.6466]
+Sun 23 Mar 2025 14:08:54 INFO  epoch 86 evaluating [time: 7.83s, valid_score: 0.119400]
+Sun 23 Mar 2025 14:08:54 INFO  valid result: 
+recall@10 : 0.1194    ndcg@10 : 0.0633
+Sun 23 Mar 2025 14:08:55 INFO  epoch 87 training [time: 1.18s, train_loss1: 20.8259, train_loss2: 19.5375]
+Sun 23 Mar 2025 14:09:03 INFO  epoch 87 evaluating [time: 7.48s, valid_score: 0.119900]
+Sun 23 Mar 2025 14:09:03 INFO  valid result: 
+recall@10 : 0.1199    ndcg@10 : 0.064
+Sun 23 Mar 2025 14:09:04 INFO  epoch 88 training [time: 1.21s, train_loss1: 20.8211, train_loss2: 19.5144]
+Sun 23 Mar 2025 14:09:16 INFO  epoch 88 evaluating [time: 12.12s, valid_score: 0.120000]
+Sun 23 Mar 2025 14:09:16 INFO  valid result: 
+recall@10 : 0.12    ndcg@10 : 0.0645
+Sun 23 Mar 2025 14:09:17 INFO  epoch 89 training [time: 1.31s, train_loss1: 20.7582, train_loss2: 19.3930]
+Sun 23 Mar 2025 14:09:30 INFO  epoch 89 evaluating [time: 12.47s, valid_score: 0.120700]
+Sun 23 Mar 2025 14:09:30 INFO  valid result: 
+recall@10 : 0.1207    ndcg@10 : 0.0646
+Sun 23 Mar 2025 14:09:31 INFO  epoch 90 training [time: 1.29s, train_loss1: 20.7099, train_loss2: 19.2549]
+Sun 23 Mar 2025 14:09:41 INFO  epoch 90 evaluating [time: 9.98s, valid_score: 0.120600]
+Sun 23 Mar 2025 14:09:41 INFO  valid result: 
+recall@10 : 0.1206    ndcg@10 : 0.064
+Sun 23 Mar 2025 14:09:42 INFO  epoch 91 training [time: 1.16s, train_loss1: 20.6474, train_loss2: 19.1274]
+Sun 23 Mar 2025 14:09:51 INFO  epoch 91 evaluating [time: 9.09s, valid_score: 0.118000]
+Sun 23 Mar 2025 14:09:51 INFO  valid result: 
+recall@10 : 0.118    ndcg@10 : 0.0629
+Sun 23 Mar 2025 14:09:53 INFO  epoch 92 training [time: 1.29s, train_loss1: 20.5230, train_loss2: 19.0816]
+Sun 23 Mar 2025 14:10:04 INFO  epoch 92 evaluating [time: 11.29s, valid_score: 0.119100]
+Sun 23 Mar 2025 14:10:04 INFO  valid result: 
+recall@10 : 0.1191    ndcg@10 : 0.0629
+Sun 23 Mar 2025 14:10:05 INFO  epoch 93 training [time: 1.23s, train_loss1: 20.4256, train_loss2: 18.9482]
+Sun 23 Mar 2025 14:10:14 INFO  epoch 93 evaluating [time: 8.56s, valid_score: 0.118600]
+Sun 23 Mar 2025 14:10:14 INFO  valid result: 
+recall@10 : 0.1186    ndcg@10 : 0.063
+Sun 23 Mar 2025 14:10:15 INFO  epoch 94 training [time: 1.16s, train_loss1: 20.3447, train_loss2: 18.8742]
+Sun 23 Mar 2025 14:10:23 INFO  epoch 94 evaluating [time: 8.21s, valid_score: 0.119300]
+Sun 23 Mar 2025 14:10:23 INFO  valid result: 
+recall@10 : 0.1193    ndcg@10 : 0.0632
+Sun 23 Mar 2025 14:10:24 INFO  epoch 95 training [time: 1.19s, train_loss1: 20.3448, train_loss2: 18.7221]
+Sun 23 Mar 2025 14:10:37 INFO  epoch 95 evaluating [time: 12.48s, valid_score: 0.119600]
+Sun 23 Mar 2025 14:10:37 INFO  valid result: 
+recall@10 : 0.1196    ndcg@10 : 0.063
+Sun 23 Mar 2025 14:10:38 INFO  epoch 96 training [time: 1.24s, train_loss1: 20.1496, train_loss2: 18.6748]
+Sun 23 Mar 2025 14:10:51 INFO  epoch 96 evaluating [time: 13.13s, valid_score: 0.118300]
+Sun 23 Mar 2025 14:10:51 INFO  valid result: 
+recall@10 : 0.1183    ndcg@10 : 0.0634
+Sun 23 Mar 2025 14:10:51 INFO  Finished training, best eval result in epoch 85
+Sun 23 Mar 2025 14:10:51 INFO  Loading model structure and parameters from saved/BiTGCF-Mar-23-2025_13-51-36.pth
+Sun 23 Mar 2025 14:11:01 INFO  best valid : OrderedDict([('recall@10', 0.1219), ('ndcg@10', 0.0645)])
+Sun 23 Mar 2025 14:11:01 INFO  test result: OrderedDict([('recall@10', 0.1282), ('ndcg@10', 0.0696)])
