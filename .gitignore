@@ -1,0 +1,45 @@
+# === Python Bytecode & Cache ===
+__pycache__/
+*.py[cod]
+*.pyo
+
+# === Jupyter Checkpoints ===
+.ipynb_checkpoints/
+
+# === Environment Files ===
+.env
+.venv/
+venv/
+ENV/
+env/
+
+# === OS / System Files ===
+.DS_Store
+Thumbs.db
+
+# === Logs / Output ===
+nohup.out
+*.log
+
+# === Model Checkpoints or Large Files ===
+*.pth
+*.pt
+*.ckpt
+*.h5
+*.npz
+
+# === Temporary Files ===
+*.bak
+*.tmp
+*.swp
+*~
+
+# === VSCode / IDE Settings ===
+.vscode/
+.idea/
+
+# === RecBole Dataset Cache (Optional) ===
+dataset/__cache__/
+saved/
+__result__/
+
